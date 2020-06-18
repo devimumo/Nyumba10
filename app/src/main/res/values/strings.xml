@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Nyumba 10</string>
+    <string name="login">Login</string>
+    <string name="Forgot">Forgot password?</string>
+    <string name="title_activity_contribution">Contribution</string>
+
+    <string name="tab_text_3">My </string>
+    <string name="loans_tab_text_3">Mini Statement </string>
+    <string name="loans_tab_text_2">Request Loan </string>
+    <string name="loans_tab_text_1">Pay Loan </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_loans">Loans</string>
+    <string name="onClick">onClick</string>
+    <string name="loan_limit">Loan Limit :</string>
+    <string name="kshs_2300">kshs. 2300</string>
+    <string name="request_loan">Request Loan</string>
+    <string name="amount">Amount</string>
+    <string name="confirm">Confirm</string>
+    <string name="country_code">+254</string>
+    <string name="phone_sample">700000000</string>
+    <string name="signup">Sign Up</string>
+    <string name="title_activity_my_association">My_association</string>
+    <string name="title_activity_history">History</string>
+    <string name="title_activity_chats">Chats</string>
+    <string name="title_activity_admin">Admin</string>
+    <string name="title_activity_police">Police</string>
+    <string name="title_activity_report_crime">ReportCrime</string>
+    <string name="title_activity_my_account">MyAccount</string>
+    <string name="report_crime1">Directly</string>
+    <string name="report_crime2">Anonimously</string>
+    <string name="My_association1">Members</string>
+    <string name="My_association2">Meetings</string>
+    <string name="My_association3">Events</string>
+    <string name="Admin2">Members</string>
+    <string name="Admin1">Crimes/reports</string>
+    <string name="chat1">Chats</string>
+    <string name="chat2">Groups</string>
+    <string name="History1">Crimes Reported</string>
+    <string name="History2">Events</string>
+    <string name="Myaccount1">Profile</string>
+    <string name="Myaccount2">History</string>
+    <string name="Police1">Crimes/Incidences</string>
+    <string name="Police2">Associations</string>
+    <string name="title_activity_ss">ss</string>
+    <string name="title_activity_histo">Histo</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_admn">Admn</string>
+    <string name="title_activity_chat">Chat</string>
+    <string name="title_activity_my__account">My_Account</string>
+    <string name="title_activity_my_associatio">MyAssociatio</string>
+    <string name="title_activity_polic">Polic</string>
+    <string name="title_activity_security">Security</string>
+
+
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.nyumba10">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/laucher_pic"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Dashboard.Security.Security"
+            android:label="@string/title_activity_security"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Dashboard.Admin.Admin"
+            android:label="@string/title_activity_admin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Dashboard.History.History"
+            android:label="@string/title_activity_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Dashboard.Chat.Chat"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Dashboard.MyAccount.MyAccount"
+            android:label="@string/title_activity_my_account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Dashboard.Sos.Sos" />
+        <activity android:name=".Dashboard.ReportCrime.ReportCrime" />
+        <activity
+            android:name=".Dashboard.MyAssociation.MyAssociation"
+            android:label="@string/title_activity_my_association"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".login.DashBoard" />
+        <activity android:name=".login.Login" />
+        <activity android:name=".Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
