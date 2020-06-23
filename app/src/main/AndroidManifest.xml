@@ -11,10 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".login.Profile"></activity>
+        <activity android:name=".login.RegisterActivity" />
         <activity
             android:name=".Dashboard.Security.Security"
             android:label="@string/title_activity_security"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Dashboard.Admin.Admin"
             android:label="@string/title_activity_admin"

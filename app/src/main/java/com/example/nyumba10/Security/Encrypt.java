@@ -23,14 +23,11 @@ public class Encrypt {
         byte [] encvalue= new byte[0];
         try {
             encvalue = c.doFinal(password.getBytes());
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
         }
-        String encrypted_data= Base64.encodeToString(encvalue,Base64.DEFAULT);
 
-        return  encrypted_data;
+        return Base64.encodeToString(encvalue,Base64.DEFAULT);
     }
 
     public  String decrypt(String encypted_value,String password) throws  Exception
@@ -41,9 +38,8 @@ public class Encrypt {
 
         byte [] decode_value=Base64.decode(encypted_value,Base64.DEFAULT);
         byte [] dec_val=c.doFinal(decode_value);
-        String decrypted_value=new String(dec_val);
 
-        return  decrypted_value;
+        return new String(dec_val);
 
 
     }

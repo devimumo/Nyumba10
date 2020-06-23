@@ -106,7 +106,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/ghostWhite"
 
-                    android:text="Lucky270,"
+                    android:text="Lucky270,2053"
                     android:background="@drawable/edittexts_username"
                     android:inputType="textPassword"
                     android:hint="Password"/>
@@ -149,6 +149,7 @@
                 android:text="@string/Forgot"/>
 
             <TextView
+                android:id="@+id/signUp_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

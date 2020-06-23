@@ -51,6 +51,13 @@
     <string name="title_activity_my_associatio">MyAssociatio</string>
     <string name="title_activity_polic">Polic</string>
     <string name="title_activity_security">Security</string>
+    <string name="Account">Already have an account?Login</string>
+    <string name="wife_id_no">wife id number</string>
+    <string name="yes_no">Married?</string>
+    <string name="male_female">Gender</string>
+    <string name="occupation">Occupation</string>
+    <string name="no_of_children">no of children</string>
+    <string name="emergency_contacts">     emergency contacts</string>
 
 
 </resources>

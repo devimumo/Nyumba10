@@ -9,6 +9,7 @@ import com.example.nyumba10.Dashboard.Chat.Chat
 import com.example.nyumba10.Dashboard.History.History
 import com.example.nyumba10.Dashboard.MyAccount.MyAccount
 import com.example.nyumba10.Dashboard.MyAssociation.MyAssociation
+import com.example.nyumba10.Dashboard.ReportCrime.ReportCrime
 import com.example.nyumba10.Dashboard.Security.Security
 import com.example.nyumba10.R
 
@@ -45,7 +46,7 @@ class DashBoard : AppCompatActivity() {
             R.id.report_crime->{
 
 
-                val intent= Intent(this,MyAssociation::class.java)
+                val intent= Intent(this,ReportCrime::class.java)
                 startActivity(intent)
             }
 
