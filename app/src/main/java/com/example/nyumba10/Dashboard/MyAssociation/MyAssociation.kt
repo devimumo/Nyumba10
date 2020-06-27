@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
+import com.example.nyumba10.Dashboard.MyAssociation.Association_search.Association_add
 import com.example.nyumba10.Dashboard.MyAssociation.ui.main.SectionsPagerAdapter
 import com.example.nyumba10.R
 import com.example.nyumba10.login.Login
@@ -29,13 +30,9 @@ class MyAssociation : AppCompatActivity() {
         fab.setOnClickListener { view ->
 
 val cc=view.context
-          //  val intent = Intent(this, Members::class.java)
-           // startActivity(intent)
-          /*  val manager: android.app.FragmentManager? = fragmentManager
-            val transaction: android.app.FragmentTransaction? = manager.beginTransaction()
-            transaction.add(R.id.container, Members(), YOUR_FRAGMENT_STRING_TAG)
-            transaction.addToBackStack(null)
-            transaction.commit()   */
+            val intent = Intent(this, Association_add::class.java)
+            startActivity(intent)
+
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }

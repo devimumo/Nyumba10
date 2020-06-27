@@ -106,7 +106,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/ghostWhite"
 
-                    android:text="Lucky270,2053"
+                    android:text="Lucky270"
                     android:background="@drawable/edittexts_username"
                     android:inputType="textPassword"
                     android:hint="Password"/>
