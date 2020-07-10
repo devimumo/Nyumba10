@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nyumba10.R
 import kotlinx.android.synthetic.main.association_add.*
-import kotlinx.android.synthetic.main.association_add.view.*
-import kotlinx.android.synthetic.main.association_layout.*
 import kotlinx.android.synthetic.main.association_layout.view.*
 
 
@@ -51,12 +49,17 @@ val association_data: associations_data_class=association_details[position]
 
     fun association_search_recycler_onclick(view: View,position: Int)
     {
+
         val association_data: associations_data_class=association_details[position]
 var association_name_from_search=association_data.association_name
+        var latLng_list: String=association_data.association_polygon_list
 
         Toast.makeText(view.context,"$association_name_from_search",Toast.LENGTH_LONG).show()
 
         val activity = view.getContext() as AppCompatActivity
+        if (view.context is Association_add) {
+            (view.context as Association_add).polygon(view,latLng_list)
+        }
         activity.counties_card_view.visibility=View.VISIBLE
         activity. associations_details_card.visibility=View.VISIBLE
         activity.searchview.visibility=View.GONE
@@ -65,6 +68,7 @@ var association_name_from_search=association_data.association_name
       // activity.association_name.text=association_data.association_name.toString()
 
         activity.Association_name_value.text=association_name_from_search.toString()
+        activity.association_id.text=association_data.association_id
 
 
 

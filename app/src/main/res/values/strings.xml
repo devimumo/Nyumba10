@@ -58,6 +58,7 @@
     <string name="occupation">Occupation</string>
     <string name="no_of_children">no of children</string>
     <string name="emergency_contacts">     emergency contacts</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

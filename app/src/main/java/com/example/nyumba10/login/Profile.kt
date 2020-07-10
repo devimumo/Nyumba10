@@ -15,6 +15,7 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.nyumba10.Dashboard.MyAssociation.Association_search.Association_add
 import com.example.nyumba10.R
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile.progress
@@ -141,7 +142,7 @@ if (emerge.visibility==View.VISIBLE)
                                 Toast.LENGTH_LONG
                             ).show()
                             val intent =
-                                Intent(applicationContext, DashBoard::class.java)
+                                Intent(applicationContext, Association_add::class.java)
                             startActivity(intent)
                             // String session_ide= sharedPreferences.getString("sessions_ids","");
 

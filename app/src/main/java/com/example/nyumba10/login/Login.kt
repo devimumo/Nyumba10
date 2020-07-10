@@ -20,6 +20,7 @@ import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -171,6 +172,9 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
     {
         val jsonObject_response = JSONObject(response)
         val responses = jsonObject_response.getString("response")
+        val user_data = jsonObject_response.getString("user_data")
+
+
 
         if (responses == "wrong_pass") {
             attempts--
@@ -201,6 +205,8 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
             val jsonObject = JSONObject(response)
             val responsed = jsonObject.getString("response")
             val session_id = jsonObject.getString("session_id")
+            var user_data=jsonObject.getString("user_data")
+
 
 
             if (responsed == "successful") {
@@ -210,6 +216,7 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
                 // String session_ide= sharedPreferences.getString("sessions_ids","");
                 val editor = sharedPreferences.edit()
 
+                save_user_data(user_data)
 
                 // String phone_number_= phone_number.getText().toString().trim();
                 val user_name: String = user_name.getText().toString()
@@ -243,5 +250,47 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
             }
             ///////
         }
+    }
+
+    private fun save_user_data(userData: String) {
+var userdata_json_object=JSONObject(userData)
+        var user_data_jsonarray=userdata_json_object.getJSONArray("user_data")
+        for (i in 0..user_data_jsonarray.length()-1)
+        {
+            var userdata_object=user_data_jsonarray.getJSONObject(i)
+
+            var firstname=userdata_object.getString("firstname")
+            var lastname=userdata_object.getString("lastname")
+            var id_no=userdata_object.getString("id_no")
+
+            var association_polygon_list=userdata_object.getString("association_polygon_list")
+
+            Log.d("user_dataa",firstname+"--"+lastname+"--"+id_no)
+
+
+            val MyPreferences = "mypref"
+            var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+            // String session_ide= sharedPreferences.getString("sessions_ids","");
+            val editor = sharedPreferences.edit()
+
+
+            // String phone_number_= phone_number.getText().toString().trim();
+            editor.remove("sessions_ids")
+            editor.remove("phone_number")
+            editor.remove("id_no")
+            editor.remove("primary_residense_polygon_list")
+
+
+            editor.putString("firstname", firstname)
+            editor.putString("lasname", lastname)
+            editor.putString("id_no", id_no)
+            editor.putString("primary_residense_polygon_list", association_polygon_list)
+
+
+            // editor.putString("phone_numbers",phone_number_);
+            editor.apply()
+
+        }
+
     }
 }

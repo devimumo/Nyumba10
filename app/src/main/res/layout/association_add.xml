@@ -8,38 +8,47 @@
     android:layout_gravity="center"
     tools:context=".Dashboard.MyAssociation.Association_search.Association_add">
 
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/counties_card_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:minHeight="350dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
         app:cardCornerRadius="8dp"
+        android:paddingHorizontal="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.35"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.9">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-
+                android:layout_marginLeft="7dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.241"
-                app:layout_constraintWidth_percent="0.8">
+                app:layout_constraintWidth_percent="0.4">
 
                 <LinearLayout
                     android:id="@+id/counties_alert"
@@ -74,12 +83,12 @@
                 android:layout_height="45dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/cardView2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                app:layout_constraintStart_toEndOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="@+id/cardView2"
                 app:layout_constraintVertical_bias="0.46"
-                app:layout_constraintWidth_percent="0.8">
+                app:layout_constraintWidth_percent="0.5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,14 +127,13 @@
         android:layout_height="0dp"
         android:minHeight="350dp"
         app:cardCornerRadius="8dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.35"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counties_card_view"
-        app:layout_constraintVertical_bias="0.201"
+        app:layout_constraintVertical_bias="0.101"
         app:layout_constraintWidth_percent="0.9">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -139,9 +147,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:orientation="vertical"
+                android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintHeight_percent="0.48"
                 app:layout_constraintHorizontal_bias="0.45"
                 android:gravity="center_vertical"
                 app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +179,7 @@
                     app:cardElevation="5dp"
                     android:onClick="association_add_activity_click"
                     app:layout_constraintWidth_percent="0.9"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -178,15 +187,21 @@
                     <LinearLayout
                         android:id="@+id/association_linear"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
 
-
+<TextView
+    android:id="@+id/association_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"/>
                         <TextView
                             android:id="@+id/Association_name_value"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="5"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:text=" Association"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -213,8 +228,9 @@
                 android:layout_height="0dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
+                android:layout_marginTop="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintHeight_percent="0.45"
                 app:layout_constraintHorizontal_bias="0.45"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/association_info_card"
@@ -237,7 +253,8 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/residense_type_card"
                     android:layout_width="0dp"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="35dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
                     android:onClick="association_add_activity_click"
@@ -250,7 +267,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
 
                         <TextView
                             android:id="@+id/residence_type_value"
@@ -258,6 +276,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="5"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:text="Primary"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -338,6 +357,29 @@ android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchview"
         app:layout_constraintWidth_percent="0.8" />
+
+    <ProgressBar
+        android:id="@+id/save_association_details_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:visibility="gone"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/save_association_membership_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:minWidth="150dp"
+        android:background="@drawable/edittexts"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

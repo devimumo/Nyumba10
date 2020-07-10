@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -35,8 +37,21 @@ class Profile : Fragment() {
         val view= inflater.inflate(R.layout.profile, container, false)
 
 
+
+
+        //on click event handler for edit user profile
+        view.edit_profile.setOnClickListener {
+            view.profile_textview_layout.visibility=View.GONE
+            view.profile_edittext_layout.visibility=View.VISIBLE
+
+
+        }
+
+
+
         //on click event handler for updating the profile details
         view.update_profile.setOnClickListener(View.OnClickListener {
+
             this.progress!!.visibility = View.VISIBLE
             this.update_profile.visibility=View.GONE
             update_profile(view)
@@ -63,6 +78,24 @@ class Profile : Fragment() {
             }
 
         }
+
+        view.emergency_drop_textview.setOnClickListener {
+
+            if (emerge.visibility==View.VISIBLE)
+            {
+
+                emerge.visibility=View.GONE
+
+            }
+            else
+            {
+                emerge.visibility=View.VISIBLE
+
+
+            }
+
+        }
+
 
         return  view
     }
@@ -281,3 +314,4 @@ val context=view.context
 
 
 }
+

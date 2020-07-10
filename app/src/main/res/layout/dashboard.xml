@@ -5,17 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login.DashBoard">
+
+    <fragment
+        android:id="@+id/dashboard_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="#ffffff"
         android:fillViewport="true"
+        app:layout_constraintHeight_percent="0.6"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_map"
         app:layout_constraintVertical_bias="0.457">
 
         <GridLayout
@@ -41,8 +53,9 @@
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="12dp"
                 android:onClick="Card_click"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -68,6 +81,7 @@
                         android:gravity="center"
                         android:text=" My association"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -82,8 +96,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:elevation="12dp"
                 android:onClick="Card_click"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -109,8 +124,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text=" SOS"
-
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -126,8 +141,9 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="20dp"
+                android:elevation="12dp"
                 android:onClick="Card_click"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -153,6 +169,7 @@
                         android:gravity="center"
                         android:text=" Report Crime"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -166,8 +183,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:elevation="12dp"
                 android:onClick="Card_click"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -194,6 +212,7 @@
                         android:gravity="center"
                         android:text=" My account"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -210,8 +229,9 @@
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="20dp"
 
+                android:elevation="12dp"
                 android:onClick="Card_click"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -238,6 +258,7 @@
                         android:gravity="center"
                         android:text=" Chat"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -251,9 +272,10 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:onClick="Card_click"
+                android:elevation="12dp"
 
-                app:cardCornerRadius="10dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -280,6 +302,7 @@
                         android:gravity="center"
                         android:text="History"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -293,9 +316,10 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:onClick="Card_click"
+                android:elevation="12dp"
 
-                app:cardCornerRadius="10dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -322,6 +346,7 @@
                         android:gravity="center"
                         android:text="  Admin"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -335,9 +360,9 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:elevation="12dp"
                 android:onClick="Card_click"
-
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -364,6 +389,7 @@
                         android:gravity="center"
                         android:text=" Police"
                         android:textColor="#000000"
+                        android:textSize="8dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
