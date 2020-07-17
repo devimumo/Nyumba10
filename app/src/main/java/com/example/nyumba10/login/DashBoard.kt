@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -43,7 +44,7 @@ lateinit var mapFragment : SupportMapFragment
 private var googleMap: GoogleMap? = null
 
 private val COLOR_WHITE_ARGB = -0x1
-private val COLOR_BLUE_LINES = -0xAED6F1
+private val COLOR_BLUE_LINES = -0xFC97CBD8
 private val COLOR_PURPLE_ARGB = -0x7e387c
 private val COLOR_ORANGE_ARGB = -0xa80e9
 private val COLOR_BLUE_ARGB = -0x657db
@@ -116,7 +117,6 @@ class DashBoard : AppCompatActivity() {
         })
 
 
-        get_my_association_polygon_list()
 
     }
 
@@ -142,16 +142,16 @@ class DashBoard : AppCompatActivity() {
         var focus_location = listLatLngs_arraylist[0]
 
 
-        if (polygon != null) {
+      /*  if (polygon != null) {
             polygon?.remove()
             val fillColor = COLOR_BLUE_LINES
             val strokecolor = COLOR_BLUE_ARGB
             val polygonoptions: PolygonOptions =
                 PolygonOptions().addAll(listLatLngs_arraylist).clickable(true).fillColor(
-                    COLOR_BLUE_LINES)
+                    strokecolor).strokeColor(COLOR_BLUE_LINES.toInt())
             polygon =googleMap?.addPolygon(polygonoptions)
 
-            polygon?.fillColor=fillColor
+            polygon?.fillColor= fillColor.toInt()
             polygon?.strokeColor = strokecolor
 
 
@@ -159,17 +159,20 @@ class DashBoard : AppCompatActivity() {
                 CameraUpdateFactory.newLatLngZoom(focus_location, 16f))
 
         }
-
+*/
         polygon?.remove()
-    val fillColor = COLOR_WHITE_ARGB
-    val strokecolor = COLOR_BLUE_ARGB
+
+    var fill=0x2035BFE4.toInt();
+    val fillColor = COLOR_BLUE_LINES
+    val strokecolor = 0xFF008577.toInt()
         val polygonoptions: PolygonOptions =
-            PolygonOptions().addAll(listLatLngs_arraylist).clickable(true).fillColor(
-                COLOR_BLUE_LINES)
+            PolygonOptions().addAll(listLatLngs_arraylist).clickable(true).strokeWidth(2F).fillColor(
+                fill
+            ).strokeColor(strokecolor)
         polygon =googleMap?.addPolygon(polygonoptions)
 
-        polygon?.strokeColor = strokecolor
-    polygon?.fillColor= fillColor
+     //   polygon?.strokeColor = strokecolor
+   // polygon?.fillColor= fillColor
 
     googleMap?.animateCamera(
             CameraUpdateFactory.newLatLngZoom(focus_location, 16f))

@@ -437,7 +437,7 @@ class Association_add : AppCompatActivity() {
         var teeee = listLatLngs_arraylist[0]
 
 
-        if (polygon != null) {
+     /*   if (polygon != null) {
             polygon?.remove()
 
             val polygonoptions: PolygonOptions =
@@ -452,14 +452,19 @@ class Association_add : AppCompatActivity() {
 
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(teeee, 12f))
 
-        }
+        }*/
 
+        var fill=0x2035BFE4.toInt();
+       // val fillColor = COLOR_BLUE_LINES
+        val strokecolor = 0xFF008577.toInt()
         polygon?.remove()
         val polygonoptions: PolygonOptions =
-            PolygonOptions().addAll(listLatLngs_arraylist).clickable(true)
+            PolygonOptions().addAll(listLatLngs_arraylist).clickable(true).strokeWidth(2F).fillColor(
+                fill
+            ).strokeColor(strokecolor)
         polygon = googleMap.addPolygon(polygonoptions)
         val fillColor = COLOR_WHITE_ARGB
-        val strokecolor = COLOR_ORANGE_ARGB
+      //  val strokecolor = COLOR_ORANGE_ARGB
         // polygon?.fillColor=fillColor
         polygon?.strokeColor = strokecolor
 
