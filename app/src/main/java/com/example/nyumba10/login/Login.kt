@@ -36,6 +36,13 @@ class Login : AppCompatActivity() {
         setContentView(R
             .layout.login)
 
+
+
+        if (getIntent().getBooleanExtra("EXIT", false))
+        {
+            finish();
+        }
+
         //login delay handler
         val  mVolHandler = Handler()
         val  mVolRunnable = Runnable {
@@ -52,7 +59,7 @@ class Login : AppCompatActivity() {
         }
         login_loginScreen.setOnClickListener {
 
-            login(this,user_name,passWord,login_progressBar,mVolHandler,mVolRunnable)
+            login(it,user_name,passWord,login_progressBar,mVolHandler,mVolRunnable)
 
         }
 
@@ -61,12 +68,7 @@ class Login : AppCompatActivity() {
 
     }
 
-    fun login(
-        view: Login,
-        user_name: EditText,
-        passWord: EditText,
-        login_progressBar: ProgressBar,mVolHandler: Handler,mVolRunnable: Runnable
-    )
+    fun login(view: View, user_name: EditText, passWord: EditText, login_progressBar: ProgressBar,mVolHandler: Handler,mVolRunnable: Runnable)
     {
         var  username_value: String=user_name.text.toString()
         var  password: String=passWord.text.toString()
@@ -97,16 +99,10 @@ class Login : AppCompatActivity() {
 
     }
 
-    fun check_login(
-        view: Login,
-        username_value: String,
-        password: String,
-        login_progressBar: ProgressBar,
-        user_name: EditText,mVolHandler: Handler,mVolRunnable: Runnable
-    ) {
+    fun check_login(view: View, username_value: String, password: String, login_progressBar: ProgressBar, user_name: EditText,mVolHandler: Handler,mVolRunnable: Runnable) {
         login_progressBar.visibility= View.VISIBLE
         login_loginScreen.visibility= View.GONE
-        val requestQueue = Volley.newRequestQueue(view)
+        val requestQueue = Volley.newRequestQueue(this)
 val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
       //  val login_url =   "https://project-daudi.000webhostapp.com/ladies_group/login.php"
         val stringRequest: StringRequest = object : StringRequest(
@@ -166,7 +162,7 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
 
 
     @Throws(JSONException::class)
-    private fun login_in_function(view: Login, response: String, login_progressBar: ProgressBar,
+    private fun login_in_function(view: View, response: String, login_progressBar: ProgressBar,
                                   user_name: EditText,mVolHandler: Handler,mVolRunnable: Runnable
     )
     {
@@ -180,20 +176,20 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
             attempts--
             if (attempts < 3 && attempts != 0) {
                 //bothe the username and password are false
-                Toast.makeText(    view,"Wrong credentials.Try again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Wrong credentials.Try again", Toast.LENGTH_SHORT).show()
                 login_progressBar.visibility= View.GONE
                 login_loginScreen.visibility= View.VISIBLE
 
             } else { //both the username and password are false
                 login_loginScreen.visibility=View.GONE
                 mVolHandler.postDelayed(mVolRunnable, 60000);
-                Toast.makeText(view, "Too many login attempts. Try again after 1 minute", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Too many login attempts. Try again after 1 minute", Toast.LENGTH_LONG)
                     .show()
                 //  finish()
 
             }
         } else if (responses == "!phone_number") {
-            Toast.makeText(view, "Wrong credentials.Enter the correct username", Toast.LENGTH_LONG)
+            Toast.makeText(this, "Wrong credentials.Enter the correct username", Toast.LENGTH_LONG)
                 .show()
             login_progressBar.visibility= View.GONE
             login_loginScreen.visibility= View.VISIBLE
@@ -210,7 +206,7 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
 
 
             if (responsed == "successful") {
-                Toast.makeText(view, "successful", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "successful", Toast.LENGTH_LONG).show()
                 val MyPreferences = "mypref"
                 var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
                 // String session_ide= sharedPreferences.getString("sessions_ids","");
@@ -275,14 +271,14 @@ var userdata_json_object=JSONObject(userData)
 
 
             // String phone_number_= phone_number.getText().toString().trim();
-            editor.remove("sessions_ids")
-            editor.remove("phone_number")
+            editor.remove("firstname")
+            editor.remove("lastname")
             editor.remove("id_no")
             editor.remove("primary_residense_polygon_list")
 
 
             editor.putString("firstname", firstname)
-            editor.putString("lasname", lastname)
+            editor.putString("lastname", lastname)
             editor.putString("id_no", id_no)
             editor.putString("primary_residense_polygon_list", association_polygon_list)
 
@@ -293,4 +289,5 @@ var userdata_json_object=JSONObject(userData)
         }
 
     }
+
 }

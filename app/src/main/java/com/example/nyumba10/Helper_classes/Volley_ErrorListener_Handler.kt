@@ -1,5 +1,6 @@
 package com.example.nyumba10.Helper_classes
 
+import android.view.View
 import com.android.volley.*
 import com.example.nyumba10.login.Login
 import com.google.android.material.snackbar.Snackbar
@@ -12,40 +13,40 @@ import com.google.android.material.snackbar.Snackbar
 
 
 
-    fun check_error(it:VolleyError, view: Login)
+    fun check_error(it:VolleyError, view: View)
     {
 
 
         if (it is TimeoutError || it is NoConnectionError) {
-            snack_bar("No connection",view)
+            snack_bar(it.toString(),view)
 
 
 
             //This indicates that the reuest has either time out or there is no connection
         } else if (it is AuthFailureError) {
-            snack_bar("No connection", view)
+            snack_bar(it.toString(), view)
 
 
         } else if (it is ServerError) {
-            snack_bar("No connection", view)
+            snack_bar(it.toString(), view)
 
 
         } else if (it is NetworkError) {
-            snack_bar("No connection", view)
+            snack_bar(it.toString(), view)
 
 
 
         } else if (it is ParseError) {
-            snack_bar("No connection", view)
+            snack_bar(it.toString(), view)
 
 
 
         }
     }
 
-    fun snack_bar(error: String?, view: Login) {
-      //  val mysnackbar = Snackbar.make(view.act!!, error!!, Snackbar.LENGTH_LONG)
-      //  mysnackbar.show()
+    fun snack_bar(error: String?, view: View) {
+        val mysnackbar = Snackbar.make(view, error!!, Snackbar.LENGTH_LONG)
+       mysnackbar.show()
     }
 
 

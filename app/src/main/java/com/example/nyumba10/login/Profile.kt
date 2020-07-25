@@ -20,6 +20,7 @@ import com.example.nyumba10.R
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile.progress
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.profile.view.*
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -160,17 +161,12 @@ if (emerge.visibility==View.VISIBLE)
                         }
 
                         "unsuccessful" -> {
-                            Toast.makeText(
-                                applicationContext," unsuccessful. Try again",Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext," unsuccessful. Try again",Toast.LENGTH_LONG).show()
                             this.progress.visibility = View.GONE
                             this.update_profile.visibility = View.VISIBLE
                         }
                         else -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Try again$response",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(applicationContext, "Try again$response", Toast.LENGTH_LONG).show()
                             this.progress.visibility = View.GONE
                             this.update_profile.visibility = View.VISIBLE
                         }
@@ -194,7 +190,6 @@ if (emerge.visibility==View.VISIBLE)
                     getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
                 // String session_id= sharedPreferences.getString("sessions_ids","");
 
-
                 val id_no = sharedPreferences.getString("id_no", "")
                 Log.d("id_number",id_no)
 
@@ -207,9 +202,7 @@ if (emerge.visibility==View.VISIBLE)
                 params["name_of_primary_emergency_contact"] = primary_contact_name.text.toString()
                 params["id_of_primary_emergency_contact"] = primary_contact_id.text.toString()
                 params["relationship_of_primary_emergency_contact"] = primary_contact_relationship.text.toString()
-
-
-
+                params["emergency_contact_phone_number"] = primary_contact_phonenumber.text.toString()
 
                 return params
             }

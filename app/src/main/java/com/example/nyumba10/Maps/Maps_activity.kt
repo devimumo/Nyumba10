@@ -72,16 +72,7 @@ class Maps_activity : AppCompatActivity() {
 
             ////*****************************************************************************************************
 
-            val polyline1 = googleMap.addPolyline(
-                PolylineOptions()
-                .clickable(true)
-                .add(
-                    LatLng(-35.016, 143.321),
-                    LatLng(-34.747, 145.592),
-                    LatLng(-34.364, 147.891),
-                    LatLng(-33.501, 150.217),
-                    LatLng(-32.306, 149.248),
-                    LatLng(-32.491, 147.309)))
+
 
             googleMap.setOnMapClickListener {
 
@@ -111,19 +102,11 @@ class Maps_activity : AppCompatActivity() {
                 listMarkers.add(marker)
             }
 
-            // Position the map's camera near Alice Springs in the center of Australia,
-            // and set the zoom factor so most of Australia shows on the screen.
-      //    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903), 1f))
-         //  googleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(LatLng(-23.684, 133.903),11f))
-
             ////*****************************************************************************************************
 
             val location1 = LatLng(-1.540079, 37.259456)
           //  var mylocation=LatLng(location1)
-          //  googleMap.addMarker(MarkerOptions().position(location1).title("My Location"))
 
-         //  googleMap.moveCamera(CameraUpdateFactory.newLatLng(location1))
-          //  googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location1,5f))
 
            googleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(LatLng(-1.540079, 37.259456
            ),17f))

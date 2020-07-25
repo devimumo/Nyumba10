@@ -6,13 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".login.DashBoard">
 
+
+
     <fragment
         android:id="@+id/dashboard_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+app:layout_constraintHeight_percent="0.4"
+        android:minHeight="100dp"
+        android:maxHeight="500dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,14 +25,14 @@
         android:layout_height="0dp"
         android:background="#ffffff"
         android:fillViewport="true"
-        app:layout_constraintHeight_percent="0.6"
-
+        android:visibility="visible"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashboard_map"
-        app:layout_constraintVertical_bias="0.457">
+        app:layout_constraintVertical_bias="0.0">
 
         <GridLayout
 
@@ -402,5 +406,46 @@
 
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/association_choice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:minHeight="52dp"
+        app:layout_constraintWidth_percent="0.58"
+        android:maxWidth="200dp"
+        android:background="@drawable/dashboard_association_choice_background"
+        app:layout_constraintBottom_toBottomOf="@+id/dashboard_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_map">
+
+
+        <TextView
+            android:id="@+id/association_choice_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:layout_weight="2"
+            android:textColor="@color/black"
+            android:text="Machakos resident owners association" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/dashboard_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.903"
+        app:srcCompat="@drawable/enlarge_map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

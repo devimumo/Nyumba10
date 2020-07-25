@@ -51,10 +51,10 @@ val association_data: associations_data_class=association_details[position]
     {
 
         val association_data: associations_data_class=association_details[position]
-var association_name_from_search=association_data.association_name
+        var association_name_from_search=association_data.association_name
         var latLng_list: String=association_data.association_polygon_list
 
-        Toast.makeText(view.context,"$association_name_from_search",Toast.LENGTH_LONG).show()
+      //  Toast.makeText(view.context,"$association_name_from_search",Toast.LENGTH_LONG).show()
 
         val activity = view.getContext() as AppCompatActivity
         if (view.context is Association_add) {

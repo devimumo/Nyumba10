@@ -49,7 +49,7 @@ private var listLatLngs_arraylist: ArrayList<LatLng> = ArrayList()
 
 private var association_id_value: String =""
 
-var current_location: Location? =null
+private var current_location: Location? =null
 val statement_data = ArrayList<associations_data_class>()
 var list = ArrayList<String>()
 var sub_counties_list = ArrayList<String>()
