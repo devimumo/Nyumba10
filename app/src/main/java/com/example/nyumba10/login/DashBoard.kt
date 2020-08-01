@@ -42,7 +42,6 @@ import kotlin.collections.ArrayList
 
 private var listLatLngs_arraylist: ArrayList<LatLng> = ArrayList()
 private var polygon: Polygon? =null
-
 private var listLatLngs: ArrayList<LatLng> = ArrayList()
 private var listMarkers: ArrayList<Marker> =ArrayList()
 lateinit var mapFragment : SupportMapFragment
@@ -55,28 +54,32 @@ private val COLOR_ORANGE_ARGB = -0xa80e9
 private val COLOR_BLUE_ARGB = -0x657db
 
 class DashBoard : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dashboard)
 
-        map_permissions()
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            map_permissions()
+        }
+        else{
+            dashboard_map()
+        }
+
+
 
 
 
 
     }
 
-
-
     private fun get_my_association_polygon_list() {
-
 
         val MyPreferences = "mypref"
         val sharedPreferences =
             getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
         // String session_id= sharedPreferences.getString("sessions_ids","");
-
 
         val primary_residense_polygon_list = sharedPreferences.getString("primary_residense_polygon_list", "")
         Log.d("primary_residense",primary_residense_polygon_list)
@@ -91,9 +94,14 @@ class DashBoard : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission( this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
 
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
 
             }
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2) }
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
+            Toast.makeText(this,"Maps permission required",Toast.LENGTH_LONG).show()
+            dashboard_map()
+
+        }
         else
         {
             dashboard_map()
@@ -191,74 +199,75 @@ var time_d=incident_date+"--"+incident_time
 
     private fun set_marker(crimeTimeAndDateValue: String, markerLocation: LatLng, crimeDescription: String, timeD: String)
     {
-         var time_value=SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
+         //var time_value=SimpleDateFormat("yyyyMMddHHmmss")
+        var time_value=SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
 
-        var time_duration=time_value.toLong()-crimeTimeAndDateValue.toLong()
+        val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+        var timev=simpleDateFormat.parse(time_value)
+        var crimev=simpleDateFormat.parse(crimeTimeAndDateValue)
 
+        var differe=timev.time-crimev.time
+        var days=differe/(1000*60*60*24)
+        var hour=(differe-(1000*60*60*24*days))/(1000*60*60)
+        var mins=(differe - (1000*60*60*24*days) - (1000*60*60*hour)) / (1000*60);
 
-        var hours_long=time_duration/1000
-        var hours=time_duration.toInt()/10000
+       // Log.d("differe",timev.time.toString())
+
+        Log.d("time_difference","days: "+days.toString()+"----hours:"+hour.toString()+"--mins:"+mins+"--"+timev+"--"+crimev)
+
         var crime_happened_duration=""
 
-
-        if (hours>24)
-        {
-             crime_happened_duration=((time_duration/10000)/100).toString()
-            crime_happened_duration=crime_happened_duration+" days"
-
-        }
+       if (days>0)
+       {
+           crime_happened_duration=days.toString()+" days"
+       }
         else
-        {
-            crime_happened_duration=hours.toString()
-            if (hours<2)
-            {
-if (hours==1)
-{
-    crime_happened_duration= crime_happened_duration+" hr"
+       {
+           if (hour>1)
+           {
+               crime_happened_duration=hour.toString()+" hours"
 
-}
-            else
-{
-    if (hours<1)
-    {
-        crime_happened_duration=hours_long.toString()
-        crime_happened_duration=crime_happened_duration+"mins"
+           }
+           else
+           {
+               crime_happened_duration=mins.toString()+" mins"
 
-    }
-}
-            }
-            else
-            {
-                crime_happened_duration= crime_happened_duration+" hrs"
-            }
-        }
+           }
+       }
 
-        Log.d("hours",time_duration.toString()+"---"+crime_happened_duration+"----------"+timeD)
 
 
             val markerOptions =MarkerOptions().snippet(crimeDescription).title(crime_happened_duration).position(markerLocation)
 
             val map_marker = googleMap?.addMarker(markerOptions)
-            map_marker?.showInfoWindow()
+        map_marker?.tag=markerLocation
+        map_marker?.showInfoWindow()
 
     }
 
     fun dashboard_map()
     {
 
+
+
         mapFragment = supportFragmentManager.findFragmentById(R.id.dashboard_map) as SupportMapFragment
         mapFragment.getMapAsync(OnMapReadyCallback {
             googleMap = it
-
             googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL;
+            get_my_association_polygon_list()
 
             googleMap?.setOnMapLoadedCallback {
 
-                get_my_association_polygon_list()
 
                 Toast.makeText(this,"Maps loaded",Toast.LENGTH_LONG).show()
             }
-          //  googleMap?.isMyLocationEnabled = true
+            //  googleMap?.isMyLocationEnabled = true
+            googleMap?.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener() {
+
+                var tag_marker=it.tag
+                Log.d("tag_marker",tag_marker.toString())
+                return@OnMarkerClickListener false
+            });
 
 
         })
@@ -355,13 +364,11 @@ if (hours==1)
 
             R.id.my_account->{
 
-
                 val intent= Intent(this,MyAccount::class.java)
                 startActivity(intent)
             }
 
             R.id.report_crime->{
-
 
                 val intent= Intent(this,ReportCrime::class.java)
                 startActivity(intent)
@@ -369,13 +376,11 @@ if (hours==1)
 
             R.id.chat->{
 
-
                 val intent= Intent(this,Maps_activity::class.java)
                 startActivity(intent)
             }
 
             R.id.history->{
-
 
                 val intent= Intent(this,History::class.java)
                 startActivity(intent)
@@ -383,13 +388,11 @@ if (hours==1)
 
             R.id.admin->{
 
-
                 val intent= Intent(this,Admin::class.java)
                 startActivity(intent)
             }
 
             R.id.security->{
-
 
                 val intent= Intent(this,Security::class.java)
                 startActivity(intent)

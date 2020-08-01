@@ -12,11 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
-import com.android.volley.RetryPolicy
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
+import com.example.nyumba10.login.Firebase_Instance_id.Get_firebase_Instanse_id
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -53,14 +54,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         init {
-            inputRegexes[0] =
-                Pattern.compile(".*[A-Z].*")
-            inputRegexes[1] =
-                Pattern.compile(".*[a-z].*")
-            inputRegexes[2] =
-                Pattern.compile(".*\\d.*")
-            inputRegexes[3] =
-                Pattern.compile(".*[`~!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?].*")
+            inputRegexes[0] =Pattern.compile(".*[A-Z].*")
+            inputRegexes[1] =Pattern.compile(".*[a-z].*")
+            inputRegexes[2] =Pattern.compile(".*\\d.*")
+            inputRegexes[3] =Pattern.compile(".*[`~!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?].*")
         }
     }
 
@@ -123,26 +120,20 @@ class RegisterActivity : AppCompatActivity() {
             this.progress.visibility = View.GONE
             signUp!!.visibility = View.VISIBLE
         } else {
-            register(FirstName, LastName, Email,id_no, Mobile_no, Password)
+
+
+                register(FirstName, LastName, Email,id_no, Mobile_no, Password)
+
+
         }
     }
 
-    private fun register(
-        FirstName: String,
-        LastName: String,
-        Email: String,id_no: String,
-        Mobile_no: String,
-        Password: String
+    private fun register(FirstName: String,LastName: String,Email: String,id_no: String,Mobile_no: String,Password: String
     ) {
         val encrypt = Encrypt()
-
-        //  String url="http://192.168.43.121/canary_camera/register.php";
-        val url =
-            "https://daudi.azurewebsites.net/nyumbakumi/login/register.php" +
-                    "?firstname="+FirstName+"&lastname="+LastName+"&email="+Email+"&id_no="+id_no+"&mobile_no="+Mobile_no+"&password="+Password
-        val stringRequest: StringRequest = object : StringRequest(
-            Method.GET,url,
-            Response.Listener { response ->
+//+"?firstname="+FirstName+"&lastname="+LastName+"&email="+Email+"&id_no="+id_no+"&mobile_no="+Mobile_no+"&password="+Password
+        val url ="https://daudi.azurewebsites.net/nyumbakumi/login/register.php"
+        val stringRequest: StringRequest = object : StringRequest(Method.POST,url, Response.Listener { response ->
                 Log.i("Responsed", response)
                 var jsonObject: JSONObject? = null
                 try {
@@ -150,11 +141,10 @@ class RegisterActivity : AppCompatActivity() {
                     val responses = jsonObject.getString("response")
                     when (responses) {
                         "successful" -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Registration successful",
-                                Toast.LENGTH_LONG
-                            ).show()
+
+                            Get_firebase_Instanse_id().get_instanse_id(id_no,this)
+
+                            Toast.makeText(applicationContext, "Registration successful", Toast.LENGTH_LONG).show()
 
                             val MyPreferences="mypref"
                             val sharedPreferences =
@@ -174,29 +164,17 @@ class RegisterActivity : AppCompatActivity() {
 
                         }
                         "mobile_no_exists" -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Register with a different mobile  no",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(applicationContext, "Register with a different mobile  no", Toast.LENGTH_LONG).show()
                             progress!!.visibility = View.GONE
                             signUp!!.visibility = View.VISIBLE
                         }
                         "unsuccessful" -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Registration unsuccessful",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(applicationContext, "Registration unsuccessful", Toast.LENGTH_LONG).show()
                             progress!!.visibility = View.GONE
                             signUp!!.visibility = View.VISIBLE
                         }
                         else -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Try again$response",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(applicationContext, "Try again$response", Toast.LENGTH_LONG).show()
                             //progressbar!!.visibility = View.INVISIBLE
                             signUp!!.visibility = View.VISIBLE
                         }
@@ -204,13 +182,12 @@ class RegisterActivity : AppCompatActivity() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
-            },
-            Response.ErrorListener { error ->
+            }, Response.ErrorListener { error ->
                 Log.i("Volley_Error", error.toString())
               //  progressbar!!.visibility = View.INVISIBLE
                 signUp!!.visibility = View.VISIBLE
             }) {
-         /*   @Throws(AuthFailureError::class)
+            @Throws(AuthFailureError::class)
             override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> =
                     HashMap()
@@ -223,27 +200,31 @@ class RegisterActivity : AppCompatActivity() {
                 params["email"] = Email
                 params["id_no"] = id_no
                 params["mobile_no"] = Mobile_no
+
                 try {
                     //SecretKeySpec keys=encrypt.generateKey(Password);
                     //String key=keys.toString();
-                    params["password"] = encrypt.encrypt(Password)
+                    params["password"] = Password
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
                 return params
-            }*/
+            }
         }
         val requestQueue = Volley.newRequestQueue(this)
 
 
 
         requestQueue.add(stringRequest)
-        stringRequest.setRetryPolicy(
-            DefaultRetryPolicy(
-                80000,
-                0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        stringRequest.setRetryPolicy(DefaultRetryPolicy(80000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
     }
+
+
+    fun snack_bar(error: String?, view: View) {
+        val mysnackbar = Snackbar.make(view, error!!, Snackbar.LENGTH_LONG)
+        mysnackbar.show()
+    }
+
 }
 
 

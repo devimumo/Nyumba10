@@ -39,8 +39,6 @@ class Splash : AppCompatActivity() {
                 startActivity(intent)
 
 
-
-
             }
            else
             {
@@ -48,7 +46,7 @@ class Splash : AppCompatActivity() {
                 startActivity(intent)
             }
             finish()
-        } , 45) // here we're delaying to startActivity after 3seconds
+        } , 4500) // here we're delaying to startActivity after 3seconds
 
     }
 }

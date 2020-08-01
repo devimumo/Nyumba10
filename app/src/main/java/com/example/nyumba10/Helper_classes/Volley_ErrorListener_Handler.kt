@@ -8,11 +8,6 @@ import com.google.android.material.snackbar.Snackbar
 
   class Volley_ErrorListener_Handler()
 {
-
-
-
-
-
     fun check_error(it:VolleyError, view: View)
     {
 

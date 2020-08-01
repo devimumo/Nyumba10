@@ -44,8 +44,10 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <activity android:name=".login.Profile"
             android:windowSoftInputMode="stateHidden"/>
+
         <activity android:name=".login.RegisterActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity
@@ -82,8 +84,12 @@
             android:label="@string/title_activity_my_association"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".login.DashBoard" />
+
+
         <activity android:name=".login.Login"
             android:windowSoftInputMode="stateHidden"/>
+
+
         <activity android:name=".Splash"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -92,6 +98,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".login.Firebase_Instance_id.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Helper_classes.Handle_mesu">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 
     </application>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "11370669130",
+    "firebase_url": "https://nyumba10-ce2d3.firebaseio.com",
+    "project_id": "nyumba10-ce2d3",
+    "storage_bucket": "nyumba10-ce2d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11370669130:android:8d7206be7988940b02f2b3",
+        "android_client_info": {
+          "package_name": "com.example.nyumba10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11370669130-eai82s3rnuu4gfv1agpobsqn5siu75df.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP9SZPqwNFtzar5LvHb7Mrv0sA7v2KfAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11370669130-eai82s3rnuu4gfv1agpobsqn5siu75df.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -186,9 +186,11 @@ view?.no?.isChecked=true      }
     }
 
     private fun get_profile_details(view: View) {
+        val MyPreferences="mypref"
+        val sharedPreferences =view?.context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
 
 
-        var id_no="30634519"
+        var id_no=sharedPreferences?.getString("id_no","")
         val queue = Volley.newRequestQueue(view.context)
         val url="https://daudi.azurewebsites.net/nyumbakumi/profile/get_profile_data.php"+"?id_no="+id_no;
 
@@ -261,7 +263,7 @@ var success_state=JSONObject(response)
 
 
         view?.occupation_textview?.text="Occupation : "+ occupations_value
-        view?.id_no_value?.text="Id no: 30634519"
+        view?.id_no_value?.text="Id no: "+id_no
         view?.gender_textview?.text="Gender : "+ gender_value
         view?.marrital_status_textview?.text="Married ? : "+ marital_status_value
         view?.wife_id_no_textview?.text="Wife Id no : "+ wife_id_passport_no_value

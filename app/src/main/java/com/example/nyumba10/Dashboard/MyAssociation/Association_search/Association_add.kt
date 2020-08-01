@@ -25,9 +25,11 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.nyumba10.Dashboard.MyAssociation.MyAssociation
 import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
 import com.example.nyumba10.login.DashBoard
+import com.example.nyumba10.login.Login
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,6 +39,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polygon
 import com.google.android.gms.maps.model.PolygonOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.association_add.*
 import org.json.JSONArray
@@ -582,6 +585,8 @@ class Association_add : AppCompatActivity() {
 
     fun save_association_details_to_db(context: Context) {
 
+        
+        var association_id_value=association_id.text.toString()
         save_association_membership_details.visibility=View.GONE
 
         save_association_details_progressbar.visibility=View.VISIBLE
@@ -595,9 +600,9 @@ class Association_add : AppCompatActivity() {
 
                var jsonObject = JSONObject(it)
 
-var response=jsonObject.getString("response")
-when(response){
-"successful"->{
+             var response=jsonObject.getString("response")
+                 when(response){
+                      "successful"->{
 
     val MyPreferences="mypref"
     val sharedPreferences =
@@ -610,14 +615,12 @@ when(response){
     editor.apply()
 
 
-    save_association_details_progressbar.visibility=View.GONE
+                          save_association_details_progressbar.visibility=View.GONE
+                          
+                          send_firebasetopic_subscription(association_id_value)
 
-
-    Toast.makeText(this,"Records saved successfully", Toast.LENGTH_LONG).show()
-
-    val intent =
-        Intent(applicationContext,DashBoard::class.java)
-    startActivity(intent)
+                          val intent= Intent(this, Login::class.java)
+                          startActivity(intent)
 }
                 else-> {
                     save_association_membership_details.visibility=View.VISIBLE
@@ -650,7 +653,7 @@ when(response){
 
 
                     params["id_no_value"] = id_no_value!!
-                    params["association_id"] = association_id.text.toString()
+                    params["association_id"] = association_id_value
                     params["residence_type_value"] = residence_type_value.text.toString()
 
 
@@ -662,7 +665,23 @@ when(response){
     requestQueue.add(stringRequest)
 }
 
+    private fun send_firebasetopic_subscription(associationIdValue: String) {
+
+        FirebaseMessaging.getInstance().subscribeToTopic(associationIdValue)
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+
+                }
+                Toast.makeText(this,"Records saved successfully", Toast.LENGTH_LONG).show()
+
+                val intent =
+                    Intent(applicationContext,DashBoard::class.java)
+                startActivity(intent)
+            }
+
     }
+
+}
 
 
 

@@ -38,6 +38,12 @@ class Login : AppCompatActivity() {
 
 
 
+        val MyPreferences = "mypref"
+        var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+var phone=sharedPreferences.getString("phone_number","")
+
+        user_name.setText(phone)
+
         if (getIntent().getBooleanExtra("EXIT", false))
         {
             finish();
