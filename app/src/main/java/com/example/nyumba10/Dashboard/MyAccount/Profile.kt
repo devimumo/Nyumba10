@@ -426,7 +426,7 @@ val context=view.context
                 // String session_id= sharedPreferences.getString("sessions_ids","");
 
                 val id_no = sharedPreferences?.getString("id_no", "")
-                Log.d("id_number",id_no)
+                Log.d("id_number",id_no!!)
 
                 params["id_no"] = id_no.toString()
                 params["occupation"] = occupation

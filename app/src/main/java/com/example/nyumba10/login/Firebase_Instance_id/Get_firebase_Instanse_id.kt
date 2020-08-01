@@ -39,7 +39,7 @@ class Get_firebase_Instanse_id {
 
                 // Log and toast
                 // val msg = getString(R.string.msg_token_fmt, token)
-                Log.d("agreed", token)
+                Log.d("agreed", token!!)
                 if (token != null) {
 
                     // val vii=View(context)

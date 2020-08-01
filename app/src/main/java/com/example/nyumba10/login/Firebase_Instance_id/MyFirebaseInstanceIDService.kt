@@ -41,7 +41,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService()  {
           else
           {
               if (id_no != null) {
-                  update_firebase_instance_id(id_no,token)
+                  send_to_db_instanse_id(id_no,token,applicationContext)
               }
           }
           }
@@ -49,6 +49,59 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService()  {
           // manage this apps subscriptions on the server side, send the
           // Instance ID token to your app server.
         //  sendRegistrationToServer(token)
+
+    private fun send_to_db_instanse_id(id_no: String,instanseId: String,context: Context
+    ) {
+        val encrypt = Encrypt()
+//+"?firstname="+FirstName+"&lastname="+LastName+"&email="+Email+"&id_no="+id_no+"&mobile_no="+Mobile_no+"&password="+Password
+        val url ="https://daudi.azurewebsites.net/nyumbakumi/login/update_firebase_instance_id.php"
+        val stringRequest: StringRequest = object : StringRequest(Method.POST,url, Response.Listener { response ->
+            Log.i("Responsed", response)
+            var jsonObject: JSONObject? = null
+            try {
+                jsonObject = JSONObject(response)
+                val responses = jsonObject.getString("response")
+                when (responses) {
+                    "successful" -> {
+
+
+                    }
+
+                    else -> {
+
+                    }
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { error ->
+            Log.i("Volley_Error", error.toString())
+            //  progressbar!!.visibility = View.INVISIBLE
+        }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                val encrypt = Encrypt()
+                //    val times = Time_function()
+                //  params["time_"] = times.current_time()
+                //  params["date_"] = times.current_date()
+
+                params["id_no"] = id_no
+                params["firebase_instance_id"] = instanseId
+                Log.d("firebase_instance_id",instanseId)
+
+
+                return params
+            }
+        }
+        val requestQueue = Volley.newRequestQueue(context)
+
+
+
+        requestQueue.add(stringRequest)
+        stringRequest.setRetryPolicy(DefaultRetryPolicy(80000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+    }
 
 
     private fun update_firebase_instance_id(id_no: String,instanseId: String) {
@@ -62,7 +115,6 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService()  {
                 val responses = jsonObject.getString("response")
                 when (responses) {
                     "successful" -> {
-
                         val MyPreferences="mypref"
                         val sharedPreferences =getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
                         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -106,7 +158,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService()  {
                   return params
               }*/
         }
-        val requestQueue = Volley.newRequestQueue(this)
+        val requestQueue = Volley.newRequestQueue(applicationContext)
 
 
 

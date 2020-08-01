@@ -20,6 +20,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Dashboard.Admin.Admin
+import com.example.nyumba10.Dashboard.GroupChat.GroupChat
 import com.example.nyumba10.Dashboard.History.History
 import com.example.nyumba10.Dashboard.MyAccount.MyAccount
 import com.example.nyumba10.Dashboard.MyAssociation.MyAssociation
@@ -82,7 +83,7 @@ class DashBoard : AppCompatActivity() {
         // String session_id= sharedPreferences.getString("sessions_ids","");
 
         val primary_residense_polygon_list = sharedPreferences.getString("primary_residense_polygon_list", "")
-        Log.d("primary_residense",primary_residense_polygon_list)
+        Log.d("primary_residense",primary_residense_polygon_list!!)
 
 
         polygon(primary_residense_polygon_list!!)
@@ -219,7 +220,16 @@ var time_d=incident_date+"--"+incident_time
 
        if (days>0)
        {
-           crime_happened_duration=days.toString()+" days"
+
+if (days.toInt()==1)
+{
+    crime_happened_duration=days.toString()+" day"
+
+}
+           else{
+    crime_happened_duration=days.toString()+" days"
+
+}
        }
         else
        {
@@ -234,10 +244,10 @@ var time_d=incident_date+"--"+incident_time
 
            }
        }
+var pinn=R.drawable.pin
 
 
-
-            val markerOptions =MarkerOptions().snippet(crimeDescription).title(crime_happened_duration).position(markerLocation)
+            val markerOptions =MarkerOptions().snippet(crimeDescription).title(crime_happened_duration).position(markerLocation).icon(BitmapDescriptorFactory.fromResource(pinn))
 
             val map_marker = googleMap?.addMarker(markerOptions)
         map_marker?.tag=markerLocation
@@ -376,7 +386,7 @@ var time_d=incident_date+"--"+incident_time
 
             R.id.chat->{
 
-                val intent= Intent(this,Maps_activity::class.java)
+                val intent= Intent(this,GroupChat::class.java)
                 startActivity(intent)
             }
 

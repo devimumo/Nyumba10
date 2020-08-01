@@ -75,7 +75,7 @@ app:layout_constraintHeight_percent="0.4"
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/association" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -119,7 +119,7 @@ app:layout_constraintHeight_percent="0.4"
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/sos" />
+                        android:src="@drawable/sos_new" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -163,7 +163,7 @@ app:layout_constraintHeight_percent="0.4"
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/report_crime" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -182,12 +182,13 @@ app:layout_constraintHeight_percent="0.4"
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/my_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/history"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:elevation="12dp"
+
                 android:onClick="Card_click"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
@@ -206,7 +207,7 @@ app:layout_constraintHeight_percent="0.4"
 
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/stats" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -214,7 +215,7 @@ app:layout_constraintHeight_percent="0.4"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text=" My account"
+                        android:text="Statistics"
                         android:textColor="#000000"
                         android:textSize="8dp"
                         android:textStyle="bold" />
@@ -252,7 +253,7 @@ app:layout_constraintHeight_percent="0.4"
 
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/chat" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -271,13 +272,12 @@ app:layout_constraintHeight_percent="0.4"
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/history"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/my_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:elevation="12dp"
-
                 android:onClick="Card_click"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp">
@@ -296,7 +296,7 @@ app:layout_constraintHeight_percent="0.4"
 
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/my_account"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -304,7 +304,7 @@ app:layout_constraintHeight_percent="0.4"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="History"
+                        android:text=" My account"
                         android:textColor="#000000"
                         android:textSize="8dp"
                         android:textStyle="bold" />
@@ -313,6 +313,8 @@ app:layout_constraintHeight_percent="0.4"
 
 
             </androidx.cardview.widget.CardView>
+
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/admin"
@@ -340,7 +342,7 @@ app:layout_constraintHeight_percent="0.4"
 
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/admin2" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -383,7 +385,7 @@ app:layout_constraintHeight_percent="0.4"
 
                         android:layout_weight="3"
                         android:paddingTop="10dp"
-                        android:src="@drawable/nyumba" />
+                        android:src="@drawable/police" />
 
                     <TextView
                         android:layout_width="match_parent"

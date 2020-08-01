@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/laucher_pic"
@@ -18,11 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Dashboard.GroupChat.GroupChat"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"
-            />
+            android:value="@string/google_maps_key" />
+
         <activity android:name=".Maps.Maps_activity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -44,53 +44,53 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
-        <activity android:name=".login.Profile"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <activity android:name=".login.RegisterActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".login.Profile"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".login.RegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.Security.Security"
             android:label="@string/title_activity_security"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.Admin.Admin"
             android:label="@string/title_activity_admin"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.History.History"
             android:label="@string/title_activity_history"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.Chat.Chat"
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.MyAccount.MyAccount"
             android:label="@string/title_activity_my_account"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".Dashboard.Sos.Sos"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".Dashboard.ReportCrime.ReportCrime"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Dashboard.Sos.Sos"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Dashboard.ReportCrime.ReportCrime"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Dashboard.MyAssociation.MyAssociation"
             android:label="@string/title_activity_my_association"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".login.DashBoard" />
-
-
-        <activity android:name=".login.Login"
-            android:windowSoftInputMode="stateHidden"/>
-
-
-        <activity android:name=".Splash"
+        <activity
+            android:name=".login.Login"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Splash"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -109,8 +109,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
     </application>
 
 </manifest>

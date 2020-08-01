@@ -162,7 +162,7 @@ class ReportCrime : AppCompatActivity() {
 
 
         val primary_residense_polygon_list = sharedPreferences.getString("primary_residense_polygon_list", "")
-        Log.d("primary_residense",primary_residense_polygon_list)
+        Log.d("primary_residense",primary_residense_polygon_list!!)
 
 
         polygon(primary_residense_polygon_list!!,state)
