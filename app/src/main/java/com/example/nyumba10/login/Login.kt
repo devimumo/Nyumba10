@@ -1,6 +1,8 @@
 package com.example.nyumba10.login
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +22,7 @@ import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login.*
+import kotlinx.coroutines.delay
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -33,10 +36,10 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R
-            .layout.login)
+        setContentView(R.layout.login)
 
-
+        val action=supportActionBar
+        action?.title="Login"
 
         val MyPreferences = "mypref"
         var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
@@ -95,12 +98,10 @@ var phone=sharedPreferences.getString("phone_number","")
         {
             passWord.setError("password required ")
 
-
         }
         else
         {
             check_login(view,username_value,password,login_progressBar,user_name,mVolHandler,mVolRunnable)
-
         }
 
     }
@@ -174,7 +175,7 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
     {
         val jsonObject_response = JSONObject(response)
         val responses = jsonObject_response.getString("response")
-        val user_data = jsonObject_response.getString("user_data")
+//        val user_data = jsonObject_response.getString("user_data")
 
 
 
@@ -212,7 +213,7 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
 
 
             if (responsed == "successful") {
-                Toast.makeText(this, "successful", Toast.LENGTH_LONG).show()
+               // Toast.makeText(this, "successful", Toast.LENGTH_LONG).show()
                 val MyPreferences = "mypref"
                 var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
                 // String session_ide= sharedPreferences.getString("sessions_ids","");
@@ -232,8 +233,33 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
                 login_progressBar.visibility= View.GONE
                 login_loginScreen.visibility= View.VISIBLE
 
-                // String session_id= sharedPreferences.getString("sessions_ids","");
+            }
+            ///////
+        }
+    }
 
+    private fun save_user_data(userData: String) {
+var userdata_json_object=JSONObject(userData)
+        var user_data_jsonarray=userdata_json_object.getJSONArray("user_data")
+        for (i in 0..user_data_jsonarray.length()-1)
+        {
+            var userdata_object=user_data_jsonarray.getJSONObject(i)
+            var firstname=userdata_object.getString("firstname")
+            var lastname=userdata_object.getString("lastname")
+            var id_no=userdata_object.getString("id_no")
+            var designation=userdata_object.getString("designation")
+            var account_status=userdata_object.getString("account_status")
+            var phone_number=userdata_object.getString("phone_number")
+            var association_data=userdata_object.getString("association_data")
+
+            var association_data_object=JSONObject(association_data)
+            var association_id=association_data_object.getString("association_id")
+            var association_polygon_list=association_data_object.getString("association_polygon_list")
+          //  var association_polygon_list=userdata_object.getString("association_polygon_list")
+            val MyPreferences = "mypref"
+            var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+            if (account_status.equals("active"))
+            {
 
                 val profile_status = sharedPreferences.getString("profile_status", "!updated")
 
@@ -248,30 +274,21 @@ val login_url="https://daudi.azurewebsites.net/nyumbakumi/login/login.php";
                     startActivity(intent)
                 }
 
+            }
+            else{
+
+                Toast.makeText(this,"Your account has been de activated",Toast.LENGTH_LONG).show()
+                Handler().postDelayed({
+
+                 finish()
+                }, 3000)
 
             }
-            ///////
-        }
-    }
-
-    private fun save_user_data(userData: String) {
-var userdata_json_object=JSONObject(userData)
-        var user_data_jsonarray=userdata_json_object.getJSONArray("user_data")
-        for (i in 0..user_data_jsonarray.length()-1)
-        {
-            var userdata_object=user_data_jsonarray.getJSONObject(i)
-
-            var firstname=userdata_object.getString("firstname")
-            var lastname=userdata_object.getString("lastname")
-            var id_no=userdata_object.getString("id_no")
-
-            var association_polygon_list=userdata_object.getString("association_polygon_list")
 
             Log.d("user_dataa",firstname+"--"+lastname+"--"+id_no)
 
 
-            val MyPreferences = "mypref"
-            var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+
             // String session_ide= sharedPreferences.getString("sessions_ids","");
             val editor = sharedPreferences.edit()
 
@@ -280,20 +297,57 @@ var userdata_json_object=JSONObject(userData)
             editor.remove("firstname")
             editor.remove("lastname")
             editor.remove("id_no")
+            editor.remove("association_id")
+            editor.remove("phone_number")
             editor.remove("primary_residense_polygon_list")
+            editor.remove("designation")
 
 
             editor.putString("firstname", firstname)
+            editor.putString("phone_number",phone_number)
             editor.putString("lastname", lastname)
             editor.putString("id_no", id_no)
-            editor.putString("primary_residense_polygon_list", association_polygon_list)
+            editor.putString("association_id", association_id)
+            editor.putString("designation",designation)
 
-
-            // editor.putString("phone_numbers",phone_number_);
+            editor.putString("primary_residense_polygon_list",association_polygon_list)
             editor.apply()
-
+           // editor.commit()
         }
 
     }
+
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+
+        val MyPreferences = "mypref"
+        val sharedPreferences =
+            getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        // String session_id= sharedPreferences.getString("sessions_ids","");
+
+        val phone_number = sharedPreferences.getString("phone_number", "")
+        if (phone_number.equals(""))
+        {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Do you want exit")
+                .setPositiveButton("Yes",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // super.onBackPressed()
+
+                       finish()
+                    })
+                .setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                        finish()
+
+                    })
+            // Create the AlertDialog object and return it
+            builder.create()
+            builder.show()
+        }
+    }
+
 
 }

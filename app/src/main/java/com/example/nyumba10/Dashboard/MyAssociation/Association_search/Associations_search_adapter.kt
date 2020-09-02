@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nyumba10.R
@@ -12,7 +11,11 @@ import kotlinx.android.synthetic.main.association_add.*
 import kotlinx.android.synthetic.main.association_layout.view.*
 
 
-class Associations_search_adapter (val association_details:ArrayList<associations_data_class>,var c: Context):
+class Associations_search_adapter(
+    val association_details: ArrayList<associations_data_class>,
+    var c: Context,
+    rootviewAssociationAdd: View?
+):
     RecyclerView.Adapter<Associations_search_adapter.ViewHolder>()
 {
     override fun onCreateViewHolder(
@@ -60,6 +63,9 @@ val association_data: associations_data_class=association_details[position]
         if (view.context is Association_add) {
             (view.context as Association_add).polygon(view,latLng_list)
         }
+
+
+        association_details.clear()
         activity.counties_card_view.visibility=View.VISIBLE
         activity. associations_details_card.visibility=View.VISIBLE
         activity.searchview.visibility=View.GONE

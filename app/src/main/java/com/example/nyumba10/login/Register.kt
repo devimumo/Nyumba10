@@ -1,11 +1,14 @@
 package com.example.nyumba10.login
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,8 @@ import com.example.nyumba10.Security.Encrypt
 import com.example.nyumba10.login.Firebase_Instance_id.Get_firebase_Instanse_id
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.crime_info_layout.view.*
+import kotlinx.android.synthetic.main.reportcrime.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -33,8 +38,6 @@ class RegisterActivity : AppCompatActivity() {
         signUp.setOnClickListener(View.OnClickListener {
             signup()
 
-            // Intent toLogin = new Intent(SignUp.this, view.LoginScreen.class);
-            // startActivity(toLogin);
         })
     }
 
@@ -61,7 +64,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun signup() {
+    private fun signup() {
         signUp.visibility = View.GONE
         this.progress.visibility = View.VISIBLE
 
@@ -152,14 +155,21 @@ class RegisterActivity : AppCompatActivity() {
                             val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
                             //    editor.putString("phone_number",email);
+
+                            editor.remove("mobile_no")
+                            editor.remove("registration_status")
+                            editor.remove("id_no")
+
                             editor.putString("registration_status", "registered")
                             editor.putString("id_no", id_no)
+                            editor.putString("mobile_no", Mobile_no)
+
 
                             editor.apply()
                             progress!!.visibility = View.GONE
 
 
-                            val intent =Intent(applicationContext, Login::class.java)
+                            val intent =Intent(applicationContext, Confirm_account_activation_pin::class.java)
                             startActivity(intent)
 
                         }
@@ -184,7 +194,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }, Response.ErrorListener { error ->
                 Log.i("Volley_Error", error.toString())
-              //  progressbar!!.visibility = View.INVISIBLE
+               progress!!.visibility = View.GONE
                 signUp!!.visibility = View.VISIBLE
             }) {
             @Throws(AuthFailureError::class)
@@ -219,10 +229,37 @@ class RegisterActivity : AppCompatActivity() {
         stringRequest.setRetryPolicy(DefaultRetryPolicy(80000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
     }
 
-
     fun snack_bar(error: String?, view: View) {
         val mysnackbar = Snackbar.make(view, error!!, Snackbar.LENGTH_LONG)
         mysnackbar.show()
+    }
+
+    private fun get_crime_info_alert_dialog()
+    {
+        val builder = AlertDialog.Builder(this)
+        // Get the layout inflater
+        val inflater: LayoutInflater = LayoutInflater.from(this)
+        var inflated=inflater.inflate(R.layout.association_rules_layout, null)
+        builder.setView(inflated)
+
+
+        builder.setPositiveButton("Okay",
+            DialogInterface.OnClickListener { dialog, id ->
+                var text_crime_description_radio=inflated.crime_description_radio.text
+                //location_description =inflated.location_description.text.toString()
+                var checked_incident_type=inflated.incident_type_radio
+               // crime_description.text=text_crime_description_radio
+            })
+        builder.setCancelable(true)
+
+
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        // Add action buttons
+
+        builder.create()
+        builder.show()
     }
 
 }

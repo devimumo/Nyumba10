@@ -24,7 +24,16 @@ class association_chat_db_instances {
         ).build()
 
         db.association_chat_dao().insertAll(message_payload)
+//Log.d("long_value",long_value.toString())
+    }
 
+    fun delete_sata_on_table(context: Context)
+    {
+        val db = Room.databaseBuilder( context,
+            association_chat_db::class.java, "nyumba10"
+        ).build()
+
+        db.association_chat_dao().delete()
     }
 
     fun retreive_chats_from_room_database(context: Context): List<association_chat_entity>

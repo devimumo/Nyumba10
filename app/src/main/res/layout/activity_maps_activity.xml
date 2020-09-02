@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Maps.Maps_activity" >
+    tools:context=".Dashboard.Maps.Maps_activity" >
 
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
 
 
         map:layout_constraintBottom_toBottomOf="parent"
@@ -22,35 +23,161 @@
         map:layout_constraintTop_toTopOf="parent"
         map:layout_constraintVertical_bias="0.009" />
 
+
+    <ProgressBar
+        android:id="@+id/map_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:visibility="gone"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/save_new_association_data"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:onClick="maps_onclick"
+        android:text="Save polygon to db"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.51"
+        map:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Polygon"
-        android:background="@drawable/edittexts"
-        android:paddingHorizontal="7dp"
+        android:background="@drawable/edittexts_other_receiver_back"
         android:onClick="polygon"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.498"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/map"
-        map:layout_constraintVertical_bias="0.364" />
-
-    <Button
-        android:id="@+id/remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittexts"
-        android:onClick="polygon_remove"
         android:paddingHorizontal="7dp"
-        android:text="remove Polygon"
+        android:layout_marginBottom="3dp"
+        android:text="Create association  Polygon"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.498"
+        map:layout_constraintHorizontal_bias="0.086"
+        map:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/remove"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/cancel"
+        android:onClick="polygon_remove"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.898"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/button"
-        map:layout_constraintVertical_bias="0.115" />
+        android:layout_marginBottom="6dp"
+        map:layout_constraintTop_toTopOf="@+id/button"
+        map:layout_constraintVertical_bias="0.0" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+
+            map:cardCornerRadius="10dp"
+            map:cardElevation="5dp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.241"
+            map:layout_constraintWidth_percent="0.4"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="7dp">
+
+            <LinearLayout
+                android:id="@+id/counties_alert"
+                android:layout_width="match_parent"
+                android:onClick="maps_onclick"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/county_value"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text=" County"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_down" />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            map:cardCornerRadius="10dp"
+            android:visibility="gone"
+            map:cardElevation="5dp"
+            map:layout_constraintEnd_toEndOf="@+id/cardView2"
+            map:layout_constraintStart_toStartOf="@+id/cardView2"
+            map:layout_constraintTop_toBottomOf="@+id/cardView2"
+            map:layout_constraintWidth_percent="0.5">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/sub_coounty_progress"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:id="@+id/sub_county_value"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:onClick="maps_onclick"
+                    android:text="Sub County"
+
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

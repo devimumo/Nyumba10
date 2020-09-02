@@ -60,7 +60,7 @@ var relationship_of_primary_emergency_contact_value=""
 var marital_status_value_edit_value=""
 var gender_value_edit_value=""
 
-
+var data_payload=""
 
 class Profile : Fragment() {
 
@@ -188,10 +188,10 @@ view?.no?.isChecked=true      }
     private fun get_profile_details(view: View) {
         val MyPreferences="mypref"
         val sharedPreferences =view?.context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-
-
         var id_no=sharedPreferences?.getString("id_no","")
         val queue = Volley.newRequestQueue(view.context)
+
+        Log.d("profile_details",id_no!!)
         val url="https://daudi.azurewebsites.net/nyumbakumi/profile/get_profile_data.php"+"?id_no="+id_no;
 
 // Request a string response from the provided URL.
@@ -199,21 +199,25 @@ view?.no?.isChecked=true      }
             Response.Listener<String> { response ->
 var success_state=JSONObject(response)
                 var success=success_state.getString("response")
-                var data_payload=success_state.getString("data")
 
                 when(success)
 {
     "successful"->{
+        data_payload=success_state.getString("data")
         handle_profile_data_response(data_payload)
 
     }
     "!data"->{
-              snack_bar("Please update your profile details",view)
+        this.progress!!.visibility = View.GONE
+
+        snack_bar("Please update your profile details",view)
 
     }
     else->{
 
         Log.d("db_errors",data_payload)
+        this.progress!!.visibility = View.GONE
+
 
     }
 }

@@ -1,6 +1,8 @@
 package com.example.nyumba10.login
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences.Editor
 import android.os.Bundle
@@ -18,8 +20,21 @@ import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Dashboard.MyAssociation.Association_search.Association_add
 import com.example.nyumba10.R
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_profile.emerge
+import kotlinx.android.synthetic.main.activity_profile.emergency_drop
+import kotlinx.android.synthetic.main.activity_profile.gender
+import kotlinx.android.synthetic.main.activity_profile.marital_status
+import kotlinx.android.synthetic.main.activity_profile.no_of_children
+import kotlinx.android.synthetic.main.activity_profile.occupation
+import kotlinx.android.synthetic.main.activity_profile.primary_contact_id
+import kotlinx.android.synthetic.main.activity_profile.primary_contact_name
+import kotlinx.android.synthetic.main.activity_profile.primary_contact_phonenumber
+import kotlinx.android.synthetic.main.activity_profile.primary_contact_relationship
 import kotlinx.android.synthetic.main.activity_profile.progress
+import kotlinx.android.synthetic.main.activity_profile.update_profile
+import kotlinx.android.synthetic.main.activity_profile.wife_id_no
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.profile.*
 import kotlinx.android.synthetic.main.profile.view.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,7 +44,8 @@ class Profile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-
+        val actionBar = supportActionBar
+      //  actionBar!!.title="Profile"
         update_profile.setOnClickListener(View.OnClickListener {
             this.progress!!.visibility = View.VISIBLE
             this.update_profile.visibility=View.GONE
@@ -126,10 +142,7 @@ if (emerge.visibility==View.VISIBLE)
 
         val url =
             "https://daudi.azurewebsites.net/nyumbakumi/login/profile.php"
-        val stringRequest: StringRequest = object : StringRequest(
-            Method.POST,
-            url,
-            Response.Listener { response ->
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, url, Response.Listener { response ->
                 Log.i("Responsed", response)
                 var jsonObject: JSONObject? = null
                 try {
@@ -142,10 +155,8 @@ if (emerge.visibility==View.VISIBLE)
                                 "Profile Updated successfully",
                                 Toast.LENGTH_LONG
                             ).show()
-                            val intent =
-                                Intent(applicationContext, Association_add::class.java)
-                            startActivity(intent)
-                            // String session_ide= sharedPreferences.getString("sessions_ids","");
+
+                            progress.visibility=View.GONE
 
                             val MyPreferences="mypref"
                             val sharedPreferences =
@@ -156,6 +167,12 @@ if (emerge.visibility==View.VISIBLE)
                             editor.putString("profile_status", "updated")
 
                             editor.apply()
+
+                            val intent =
+                                Intent(applicationContext, Association_add::class.java)
+                            startActivity(intent)
+                            // String session_ide= sharedPreferences.getString("sessions_ids","");
+
 
 
                         }
@@ -174,8 +191,7 @@ if (emerge.visibility==View.VISIBLE)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
-            },
-            Response.ErrorListener { error ->
+            }, Response.ErrorListener { error ->
                 Log.i("Volley_Error", error.toString())
                   this.progress.visibility = View.INVISIBLE
                 this.update_profile.visibility = View.VISIBLE
@@ -251,6 +267,43 @@ if (emerge.visibility==View.VISIBLE)
                     }
             }
         }
+    }
+
+    override fun onBackPressed() {
+
+      //  super.onBackPressed()
+
+        val MyPreferences = "mypref"
+        val sharedPreferences =
+            getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        // String session_id= sharedPreferences.getString("sessions_ids","");
+
+        val profile_status = sharedPreferences.getString("profile_status", "!updated")
+  if (profile_status.equals("!updated"))
+  {
+      val builder = AlertDialog.Builder(this)
+      builder.setMessage("You have not conluded registration. \n" +"Do you want exit?")
+          .setPositiveButton("Yes",
+              DialogInterface.OnClickListener { dialog, id ->
+                  // super.onBackPressed()
+
+
+                  finish()
+              })
+          .setNegativeButton("No",
+              DialogInterface.OnClickListener { dialog, id ->
+                  // User cancelled the dialog
+
+              })
+      // Create the AlertDialog object and return it
+      builder.create()
+      builder.show()
+  }
+        else
+  {
+       super.onBackPressed()
+
+  }
     }
 
 }

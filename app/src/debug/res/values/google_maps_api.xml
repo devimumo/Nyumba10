@@ -9,7 +9,7 @@
     You can also add your credentials to an existing key, using these values:
 
     Package name:
-    com.example.nyumba10.Maps
+    com.example.nyumba10.Dashboard.MyAssociation.Maps
 
     SHA-1 certificate fingerprint:
     D6:AA:63:16:FA:F9:05:37:E4:13:D6:FA:B2:EA:A4:A7:F9:63:85:4F
@@ -21,6 +21,7 @@
 
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
+    AIzaSyDbT7p5eGlHGQ1iMA-K8efIm8W5JZT6_v0
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDbT7p5eGlHGQ1iMA-K8efIm8W5JZT6_v0</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCu-F-Mbe8p23zcAlPARMeYIGws0zWBtRE</string>
 </resources>

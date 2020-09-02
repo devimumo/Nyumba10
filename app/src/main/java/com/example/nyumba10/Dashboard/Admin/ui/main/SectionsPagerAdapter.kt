@@ -27,12 +27,12 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         {
             0->
             {
-                return Members()
+                return Incidences_Crimes()
             }
             1->
             {
 
-                return Incidences_Crimes()
+                return Members()
             }
 
             else->return Members()

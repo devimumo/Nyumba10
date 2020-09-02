@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RadioGroup
+        android:id="@+id/incident_type_radio"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        app:layout_constraintWidth_percent="0.9"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:onClick="radioclick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/crime_radio"
+            android:textColor="#C61212"
+            android:onClick="crime_info_onclick"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="Crime" />
+
+
+        <RadioButton
+            android:id="@+id/suspicious_radio"
+            android:textColor="#FF9800"
+            android:onClick="crime_info_onclick"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="Suspicious" />
+
+        <RadioButton
+            android:id="@+id/safety_radio"
+            android:textColor="#098C0F"
+            android:onClick="crime_info_onclick"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="Safety" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/crime_description_radio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Crime description"
+        android:maxHeight="200dp"
+        android:minHeight="40dp"
+        android:layout_marginTop="7dp"
+        android:padding="4dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incident_type_radio"
+        app:layout_constraintWidth_percent="0.8"
+        />
+
+    <EditText
+        android:id="@+id/location_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="60dp"
+        android:paddingStart="6dp"
+        android:hint="Location description"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crime_description_radio"
+        app:layout_constraintWidth_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

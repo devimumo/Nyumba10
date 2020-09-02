@@ -1,8 +1,6 @@
-package com.example.nyumba10.Maps.info_window_adapter
+package com.example.nyumba10.Dashboard.Maps.info_window_adapter
 
-import android.R
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker

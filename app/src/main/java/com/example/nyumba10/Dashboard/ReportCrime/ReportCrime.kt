@@ -2,7 +2,6 @@ package com.example.nyumba10.Dashboard.ReportCrime
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -14,8 +13,10 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -25,13 +26,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.nyumba10.Dashboard.Admin.Admin
-import com.example.nyumba10.Dashboard.History.History
-import com.example.nyumba10.Dashboard.MyAccount.MyAccount
-import com.example.nyumba10.Dashboard.MyAssociation.MyAssociation
-import com.example.nyumba10.Dashboard.Security.Security
 import com.example.nyumba10.Helper_classes.Volley_ErrorListener_Handler
-import com.example.nyumba10.Maps.Maps_activity
 import com.example.nyumba10.R
 import com.example.nyumba10.login.DashBoard
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -42,8 +37,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.crime_info_layout.view.*
 import kotlinx.android.synthetic.main.reportcrime.*
-import kotlinx.android.synthetic.main.reportcrime.login_progressBar
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -64,12 +59,12 @@ var googleMap: GoogleMap? = null
 private var my_location: LatLng?=null
 private var access_fine_location_code = 1
 private var access_fine_location_name = "Access fine location"
-
+private var incident_type_value_from_radio="crime"
 
 private var crime_time_and_date_value = ""
 private var crime_time_value = ""
 private var crime_date_value = ""
-
+private var location_description=""
 private var crime_time_text_value = ""
 private var crime_date_text_value = ""
 private var location_permission=Manifest.permission.ACCESS_FINE_LOCATION
@@ -85,8 +80,10 @@ class ReportCrime : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reportcrime)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        val actionBar = supportActionBar
+        actionBar!!.title="Report Crime"
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
         map_permissions(access_fine_location_name, access_fine_location_code, location_permission)
@@ -97,7 +94,7 @@ class ReportCrime : AppCompatActivity() {
         mapFragment = supportFragmentManager.findFragmentById(R.id.dashboard_map) as SupportMapFragment
          mapFragment.getMapAsync {
              googleMap=it
-    googleMap?.setOnMapClickListener {
+          googleMap?.setOnMapClickListener {
 
         googleMap?.clear()
         listMarkers.clear()
@@ -132,12 +129,13 @@ class ReportCrime : AppCompatActivity() {
     }
 
 
-    public override fun onBackPressed() {
+    /*public override fun onBackPressed() {
         super.onBackPressed()
         var intent=Intent(this,DashBoard::class.java)
         startActivity(intent)
-    }
+    }*/
     private fun set_default_time_values() {
+
         crime_time_text_value = SimpleDateFormat("HH:mm a", Locale.getDefault()).format(Date()).toString()
         crime_date_text_value=SimpleDateFormat(" dd ,MM, yyyy", Locale.getDefault()).format(Date()).toString()
         incident_time.text= crime_time_text_value
@@ -147,8 +145,6 @@ class ReportCrime : AppCompatActivity() {
         crime_date_value = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date()).toString()
         crime_time_and_date_value= crime_date_value+ crime_time_value
         Log.d("crime_time_and_date", crime_time_and_date_value)
-
-
 
     }
 
@@ -221,7 +217,7 @@ private fun show_request_permission_dialog(    name: String,    requestCode: Int
     }
 
 
-    fun dashboard_map(checked: String)
+   private fun dashboard_map(checked: String)
     {
 
         if (!checked.equals("checked")) {
@@ -267,18 +263,9 @@ private fun show_request_permission_dialog(    name: String,    requestCode: Int
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 3)
             }
             else
-            {
+            {                get_last_fused_location()            }
 
-                get_last_fused_location()
-
-            }
-
-        }
-        else
-        {
-
-           get_last_fused_location()
-        }
+        }        else        {           get_last_fused_location()        }
 
 
 
@@ -327,12 +314,12 @@ private fun show_request_permission_dialog(    name: String,    requestCode: Int
                 }
 
             }
-
+Log.d("my_location",my_location.toString())
         return my_location
 
     }
 
-    fun date_picker()
+  private  fun date_picker()
     {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -353,10 +340,27 @@ if (monthOfYear<10)
 {
 
     date_today="0"+date_today
-    incident_date.setText("" + dayOfMonth + ", " + date_today + ", " + year)
+   // incident_date.setText("" + dayOfMonth + ", " + date_today + ", " + year)
 
 
-    crime_date_value= (year.toString()+date_today.toString()+dayOfMonth.toString()).toString()
+   // crime_date_value= (year.toString()+date_today.toString()+dayOfMonth.toString()).toString()
+
+
+
+    if (dayOfMonth<10)
+    {
+        incident_date.setText("" + "0"+dayOfMonth + ", " + date_today + ", " + year)
+
+        crime_date_value= (year.toString()+date_today.toString()+"0"+dayOfMonth.toString()).toString()
+
+    }
+    else
+    {
+        incident_date.setText("" + dayOfMonth + ", " + date_today + ", " + year)
+
+        crime_date_value= (year.toString()+date_today.toString()+dayOfMonth.toString()).toString()
+
+    }
 
 }
             else{
@@ -385,7 +389,7 @@ if (dayOfMonth<10)
         dpd.show()
     }
 
-    fun time_picker(this_view: View)
+   private fun time_picker(this_view: View)
     {
         val c = Calendar.getInstance()
 
@@ -460,12 +464,9 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
             var long = langlot_values.getString("long")
 
             listLatLngs_arraylist.add(LatLng(lat.toDouble(), long.toDouble()))
-
         }
 
         var focus_location = listLatLngs_arraylist[0]
-
-
 
        polygon?.remove()
 
@@ -476,75 +477,13 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
             PolygonOptions().addAll(listLatLngs_arraylist).clickable(true).strokeWidth(2F).strokeColor(strokecolor)
        polygon = googleMap?.addPolygon(polygonoptions)
 
-        //   polygon?.strokeColor = strokecolor
-        // polygon?.fillColor= fillColor
-        googleMap?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(focus_location, 16f))
 
+        val currentPlace = CameraPosition.Builder()
+            .target(focus_location)
+            .tilt(35.5f).zoom(15.5f).build()
 
-    }
-
-
-    fun Card_click(view: View) {
-
-
-        when (view.id)
-        {
-            R.id.my_association->{
-
-
-                val intent= Intent(this, MyAssociation::class.java)
-                startActivity(intent)
-            }
-
-            R.id.sos->{
-                //    val intent= Intent(this,::class.java)
-                //  startActivity(intent)
-            }
-
-            R.id.my_account->{
-
-
-                val intent= Intent(this, MyAccount::class.java)
-                startActivity(intent)
-            }
-
-            R.id.report_crime->{
-
-
-                val intent= Intent(this,ReportCrime::class.java)
-                startActivity(intent)
-            }
-
-            R.id.chat->{
-
-
-                val intent= Intent(this, Maps_activity::class.java)
-                startActivity(intent)
-            }
-
-            R.id.history->{
-
-
-                val intent= Intent(this, History::class.java)
-                startActivity(intent)
-            }
-
-            R.id.admin->{
-
-
-                val intent= Intent(this, Admin::class.java)
-                startActivity(intent)
-            }
-
-            R.id.security->{
-
-
-                val intent= Intent(this, Security::class.java)
-                startActivity(intent)
-            }
-
-        }
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(currentPlace))
+       // googleMap?.animateCamera( CameraUpdateFactory.newLatLngZoom(focus_location, 16f))
 
     }
 
@@ -565,11 +504,9 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
 
                   android.widget.Toast.makeText( this,"Location permission is needed", android.widget.Toast.LENGTH_SHORT).show()
 
-                    //  finish()
                 }
                 return
             }
-
             3->{
 
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -588,7 +525,6 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
                         android.widget.Toast.LENGTH_SHORT
                     ).show()
 
-                    //  finish()
                 }
                 return
 
@@ -651,12 +587,25 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
     private fun animate_camera_to_my_location()
     {
         var location= get_last_fused_location()
-        val markerOptions = MarkerOptions().snippet("This is your location").title("").position(location!!)
+        if (location==null)
+        {
+            Toast.makeText(this,"Your location not acquired",Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            googleMap?.clear()
+            listMarkers.clear()
+            listLatLng_todb?.clear()
 
-        val map_marker= googleMap?.addMarker(markerOptions)
-        map_marker?.showInfoWindow()
-        googleMap?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(location, 18f))
+            get_my_association_polygon_list("clicked")
+              val markerOptions = MarkerOptions().snippet("This is your location").title("").position(location!!)
+
+              val map_marker= googleMap?.addMarker(markerOptions)
+              map_marker?.showInfoWindow()
+            googleMap?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(location, 18f))
+        }
+
     }
 
 
@@ -664,11 +613,9 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
         login_progressBar.visibility= View.VISIBLE
         report.visibility= View.GONE
 
-
         val requestQueue= Volley.newRequestQueue(this)
         val url="https://daudi.azurewebsites.net/nyumbakumi/report_crime/report_crime.php"
         val stringRequest=object : StringRequest(Request.Method.POST,url, Response.Listener { response->
-
 
             Log.d("response", response)
             val jsonObject = JSONObject(response)
@@ -688,10 +635,7 @@ if (response.equals("successful"))
     login_progressBar.visibility= View.GONE
     report.visibility= View.VISIBLE
     snack_bar("crime not reported .Please try again",view)
-
 }
-
-
 
         }, Response.ErrorListener {
 
@@ -709,7 +653,7 @@ if (response.equals("successful"))
 
                 val MyPreferences = "mypref"
                 val sharedPreferences = view.context.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-                // String session_id= sharedPreferences.getString("sessions_ids","");
+                 var session_id= sharedPreferences.getString("sessions_ids","");
 
 
                 val id_no = sharedPreferences.getString("id_no", "")
@@ -723,9 +667,10 @@ if (response.equals("successful"))
                    params.put("association_id",association_id!!)
                    params.put("crime_time_and_date_value", crime_time_and_date_value.toString())
                    params.put("crime_description", crime_description.text.toString())
-                   params.put("incident_date", incident_date.text.toString())
+                   params.put("incident_date", crime_date_value.toString())
                    params.put("incident_time", incident_time.text.toString())
-
+                   params.put("incident_type", incident_type_value_from_radio)
+                   params.put("location_description", location_description)
 
 
                    if (listLatLng_todb.isNullOrEmpty())
@@ -749,10 +694,13 @@ if (response.equals("successful"))
                    params.put("association_id",association_id!!)
                    params.put("crime_time_and_date_value", crime_time_and_date_value.toString())
                    params.put("crime_description", crime_description.text.toString())
-                   params.put("incident_date", incident_date.text.toString())
+                   params.put("incident_date", crime_date_value.toString())
                    params.put("incident_time", incident_time.text.toString())
+                   params.put("incident_type", incident_type_value_from_radio)
+                   params.put("location_description", location_description)
 
-                        if (listLatLng_todb.isNullOrEmpty())
+
+                   if (listLatLng_todb.isNullOrEmpty())
                       {
                        params.put("listLatLng_todb", get_last_location().toString())
 
@@ -763,6 +711,7 @@ if (response.equals("successful"))
 
                    }
 
+                   Log.d("params",params.toString())
 
                }
 
@@ -778,7 +727,6 @@ if (response.equals("successful"))
 
     private fun reset_map(last_location: String) {
 
-       // var cc="[{\"lat\":-1.5382826441937885,\"long\":37.26115845143795}]";
 
         var json_array=JSONArray(last_location)
 
@@ -798,10 +746,96 @@ var location=LatLng(lat,long)
 
     }
 
+
+    private fun get_crime_info_alert_dialog()
+    {
+        val builder = AlertDialog.Builder(this)
+        // Get the layout inflater
+        val inflater: LayoutInflater = LayoutInflater.from(this)
+        var inflated=inflater.inflate(R.layout.crime_info_layout, null)
+       builder.setView(inflated)
+
+
+builder.setPositiveButton("Okay",
+    DialogInterface.OnClickListener { dialog, id ->
+        var text_crime_description_radio=inflated.crime_description_radio.text
+        location_description=inflated.location_description.text.toString()
+        var checked_incident_type=inflated.incident_type_radio
+        crime_description.text=text_crime_description_radio
+    })
+builder.setCancelable(true)
+
+
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+            // Add action buttons
+
+        builder.create()
+        builder.show()
+    }
+
     fun snack_bar(string: String?, view: View) {
         val mysnackbar = Snackbar.make(view, string!!, Snackbar.LENGTH_LONG)
         mysnackbar.show()
     }
+
+    fun onclick(view: View) {
+
+        when(view.id){
+            R.id.crime_description->{
+                get_crime_info_alert_dialog()
+            }
+        }
+    }
+
+    fun crime_info_onclick(view: View) {
+        if (view is RadioButton) {
+            val checked: Boolean = view.isChecked
+            when (view.id) {
+                R.id.crime_radio -> {
+                    if(checked)
+                    {
+           incident_type_value_from_radio="crime"
+                    }
+
+                }
+                R.id.suspicious_radio -> {
+                    if(checked)
+                    {
+
+                        incident_type_value_from_radio="suspicious"
+
+                    }
+
+                }
+                R.id.safety_radio -> {
+                    if(checked)
+                    {
+
+                        incident_type_value_from_radio="safety"
+
+                    }
+
+                }
+
+
+            }
+        }
+
+
+    }
+
+    private fun change_time(): String
+    {
+        var time_changed=""
+
+
+
+        return  time_changed
+
+    }
+
 
 }
 

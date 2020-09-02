@@ -93,7 +93,18 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    >
+
+                    <ProgressBar
+                        android:id="@+id/sub_coounty_progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="35dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:visibility="gone"/>
+
 
                     <TextView
                         android:id="@+id/sub_county_value"
@@ -101,16 +112,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:gravity="center"
+                        android:visibility="visible"
                         android:text="Sub County"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="20dp" />
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:src="@drawable/arrow_down" />
+
 
                 </LinearLayout>
 
@@ -162,28 +170,33 @@
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/color_balance"
+                    android:gravity="center"
                     android:text="Choose an association in your area"
+                    android:textColor="@color/color_balance"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.311" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/association_name_card"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
+                    android:layout_marginTop="4dp"
+                    android:onClick="association_add_activity_click"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
-                    android:onClick="association_add_activity_click"
-                    app:layout_constraintWidth_percent="0.9"
-                    android:layout_marginTop="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView">
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintWidth_percent="0.9">
 
                     <LinearLayout
                         android:id="@+id/association_linear"
@@ -191,29 +204,25 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center">
 
-<TextView
-    android:id="@+id/association_id"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/association_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/Association_name_value"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_gravity="center"
                             android:layout_weight="5"
                             android:gravity="center"
-                            android:layout_gravity="center"
                             android:text=" Association"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:src="@drawable/search" />
+
 
                     </LinearLayout>
 
@@ -221,77 +230,6 @@
                 </androidx.cardview.widget.CardView>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/association_info"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:layout_marginTop="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.45"
-                app:layout_constraintHorizontal_bias="0.45"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/association_info_card"
-                app:layout_constraintWidth_percent="0.7">
-
-                <TextView
-                    android:id="@+id/residense_type_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/color_balance"
-                    android:text="Primary or secondary residense"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/residense_type_card"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:minHeight="35dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
-                    android:onClick="association_add_activity_click"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/residense_type_textview"
-                    app:layout_constraintVertical_bias="0.46"
-                    app:layout_constraintWidth_percent="0.8">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:id="@+id/residence_type_value"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="5"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:text="Primary"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/arrow_down" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -316,19 +254,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.9"/>
-    <SearchView
-        android:id="@+id/searchview"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edittexts"
-        android:minHeight="40dp"
-        android:visibility="gone"
-        app:layout_constraintVertical_bias="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_description_text"
-        app:layout_constraintWidth_percent="0.9" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/con"
         android:layout_width="0dp"
@@ -345,18 +271,33 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <SearchView
+        android:id="@+id/searchview"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edittexts"
+        android:minHeight="40dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintWidth_percent="0.9" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:background="@drawable/edittexts"
-android:visibility="gone"
         android:maxHeight="200dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchview"
+        app:layout_constraintVertical_bias="0.02"
         app:layout_constraintWidth_percent="0.8" />
 
     <ProgressBar

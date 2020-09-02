@@ -5,12 +5,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.nyumba10.Dashboard.MyAssociation.AssociationEvents
+import com.example.nyumba10.Dashboard.MyAssociation.Crimes_incidences
 import com.example.nyumba10.Dashboard.MyAssociation.Members
 import com.example.nyumba10.R
 
 private val TAB_TITLES = arrayOf(
-    R.string.My_association1,
-    R.string.My_association2,
+    R.string.Police1,
+    R.string.Admin2,
     R.string.My_association3
 
 )
@@ -29,12 +30,12 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         {
             0->
             {
-                return Members()
+                return Crimes_incidences()
             }
             1->
             {
 
-                return AssociationEvents()
+                return Members()
             }
 
             2->
@@ -43,15 +44,15 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
                 return AssociationEvents()
             }
 
-            else->return Members()
+            else->return Crimes_incidences()
         }      }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
+        return context.resources.getString(TAB_TITLES[position] )
     }
 
     override fun getCount(): Int {
         // Show 2 total pages.
-        return 2
+        return 3
     }
 }

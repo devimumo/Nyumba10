@@ -45,19 +45,12 @@ return chats.size   }
         {
             var holder_resident=holder as Guest_viewholder
 
-
             holder_resident?.itemview.message_2.text=user_data.messages
             holder_resident?.itemview.time_send_2.text=user_data.time
             holder_resident?.itemview.username_2.text=user_data.username
         }
         else
         {
-
-
-
-
-
-
             var holder_guest=holder as ViewHolder_one
             holder_guest?.itemview.message.text=user_data.messages
             holder_guest?.itemview.time_send.text=user_data.time
@@ -71,16 +64,19 @@ return chats.size   }
     override fun getItemViewType(position: Int): Int {
         val user_data: association_chat_messages_dataclass=chats[position]
         val MyPreferences = "mypref"
-        val sharedPreferences =
-            c.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        val sharedPreferences =c.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
         // String session_id= sharedPreferences.getString("sessions_ids","");
 
         val id_no = sharedPreferences.getString("id_no", "")
+
+        Log.d("holder",id_no.toString())
         if (user_data.from_id_no.equals(id_no))
         {
             return 1
         }
+        else{
         return 2
+    }
     }
 
 

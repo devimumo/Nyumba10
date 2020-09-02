@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dashboard.Peer_to_peer_chat.Peer_to_peer_chat">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chats_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/senders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/senders"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:minHeight="37dp"
+        android:maxHeight="44dp"
+        android:paddingHorizontal="7dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <EditText
+            android:id="@+id/chat_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingVertical="12dp"
+            android:layout_weight="0.76"
+            android:background="@drawable/edittexts"
+            android:hint="message"
+            android:paddingHorizontal="12dp"
+            android:textSize="22dp" />
+
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:onClick="onclick_peer_peer"
+            android:src="@android:drawable/ic_menu_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintTop_toBottomOf="@+id/scroller"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintWidth_percent="0.154" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_chats"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="No chats"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/chats_list_recycler_view" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

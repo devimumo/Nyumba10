@@ -16,7 +16,7 @@
         android:minWidth="140dp"
         android:minHeight="50dp"
         android:padding="7dp"
-        android:background="@drawable/edittexts"
+        android:background="@drawable/edittexts_other_sender_back"
 
         android:text="This my message"
         android:textColor="@color/black"
@@ -58,8 +58,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/message_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.24"
-        app:layout_constraintHorizontal_bias="0.643"
-        app:layout_constraintStart_toEndOf="@+id/message"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="@+id/message_2"
         app:layout_constraintTop_toTopOf="@+id/message_2"
-        app:layout_constraintVertical_bias="0.457" />
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

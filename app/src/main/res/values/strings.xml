@@ -59,6 +59,9 @@
     <string name="no_of_children">no of children</string>
     <string name="emergency_contacts">     emergency contacts</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_crime_data_fuul_details">Map</string>
+    <string name="account_activation_explanation">An account activation pin has\n been send to you phone.\nRetreive it and input below</string>
+    <string name="account_activation_explanation2">Press GET OPT  to get an activation pin</string>
 
 
 </resources>

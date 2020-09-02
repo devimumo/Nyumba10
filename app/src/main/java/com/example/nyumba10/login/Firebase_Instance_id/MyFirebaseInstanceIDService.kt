@@ -64,9 +64,7 @@ class MyFirebaseInstanceIDService : FirebaseMessagingService()  {
                 when (responses) {
                     "successful" -> {
 
-
                     }
-
                     else -> {
 
                     }

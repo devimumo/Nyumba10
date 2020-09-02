@@ -82,14 +82,14 @@
         </LinearLayout>
 
 
-        <EditText
+        <TextView
             android:id="@+id/crime_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:minHeight="40dp"
             android:textColor="@color/black"
             android:maxHeight="200dp"
-
+            android:onClick="onclick"
             android:hint="Crime description"
             android:padding="4dp"
             android:paddingStart="5dp"

@@ -25,9 +25,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.nyumba10.Dashboard.MyAssociation.MyAssociation
 import com.example.nyumba10.R
-import com.example.nyumba10.Security.Encrypt
 import com.example.nyumba10.login.DashBoard
 import com.example.nyumba10.login.Login
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -40,21 +38,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polygon
 import com.google.android.gms.maps.model.PolygonOptions
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.progress
 import kotlinx.android.synthetic.main.association_add.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.ParseException
 import java.util.HashMap
 
 private lateinit var fusedLocationClient: FusedLocationProviderClient
 private var listLatLngs_arraylist: ArrayList<LatLng> = ArrayList()
 
 private var association_id_value: String =""
-
 private var current_location: Location? =null
 val statement_data = ArrayList<associations_data_class>()
 var list = ArrayList<String>()
+private var chosen_county=""
+
 var sub_counties_list = ArrayList<String>()
 lateinit var mapFragment : SupportMapFragment
 lateinit var googleMap: GoogleMap
@@ -67,11 +67,16 @@ private val COLOR_GREEN_ARGB = -0xc771c4
 private val COLOR_PURPLE_ARGB = -0x7e387c
 private val COLOR_ORANGE_ARGB = -0xa80e9
 private val COLOR_BLUE_ARGB = -0x657db
+var rootView_association_add: View? = null
+
 
 class Association_add : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.association_add)
+
+        rootView_association_add = window.decorView.rootView
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
@@ -86,16 +91,14 @@ class Association_add : AppCompatActivity() {
             googleMap = it
 
             googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL;
-
-
         })
 
-
         sub_county_value.setOnClickListener {
-            sub_counties_alert(it)
+           // sub_counties_alert(it)
         }
         counties_alert.setOnClickListener {
             counties_alert(it)
+
         }
 
         list = get_counties("county")
@@ -109,7 +112,8 @@ class Association_add : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-
+                counties_card_view.visibility=View.GONE
+                associations_details_card.visibility=View.GONE
                 fetch_associations_volley(query)
 
                 return false
@@ -229,9 +233,9 @@ class Association_add : AppCompatActivity() {
         builder.setTitle(R.string.title_activity_admin).setAdapter(
             ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
             , DialogInterface.OnClickListener { dialog, which ->
-                var chosen_county = list.get(which)
+                 chosen_county = list.get(which)
                 county_value.setText(chosen_county)
-                if (chosen_county.trim().equals("machakos", ignoreCase = true)) {
+              /*  if (chosen_county.trim().equals("machakos", ignoreCase = true)) {
 
                     googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL;
 
@@ -244,12 +248,11 @@ class Association_add : AppCompatActivity() {
                     )
 
 
-                }
-
-
+                }*/
                 var sub_v: String = "sub_county"
 
                 sub_counties_list = get_sub_counties(chosen_county)
+
                 Log.d("sub_counties_list", sub_counties_list.toString())
 
                 // The 'which' argument contains the index position
@@ -261,6 +264,7 @@ class Association_add : AppCompatActivity() {
     }
 
     fun sub_counties_alert(view: View) {
+        sub_coounty_progress.visibility=View.GONE
 
         val MyPreferences = "mypref"
         val sharedPreferences = getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
@@ -273,6 +277,12 @@ class Association_add : AppCompatActivity() {
             , DialogInterface.OnClickListener { dialog, which ->
                 var chosen_county = sub_counties_list.get(which)
                 sub_county_value.setText(chosen_county)
+
+                counties_card_view.visibility=View.GONE
+                associations_details_card.visibility=View.GONE
+
+                searchview.visibility=View.VISIBLE
+                recycler_view.visibility=View.VISIBLE
 
 
                 var sub_v: String = "sub_county"
@@ -290,8 +300,7 @@ class Association_add : AppCompatActivity() {
 
 
         val url =
-            "https://daudi.azurewebsites.net/nyumbakumi/my_associations/get_counties.php" +
-                    "?value=" + value
+            "https://daudi.azurewebsites.net/nyumbakumi/my_associations/get_counties.php"
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, url, Response.Listener { response ->
 
@@ -327,7 +336,20 @@ class Association_add : AppCompatActivity() {
             }, Response.ErrorListener {
                 Log.i("Volley_Error", it.toString())
 
-            }) {}
+            }) {
+
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+
+
+                    params["value"] = value
+
+                    return params
+                }
+
+            }
 
         val requestQueue = Volley.newRequestQueue(this)
 
@@ -347,60 +369,98 @@ class Association_add : AppCompatActivity() {
 
 
     private fun get_sub_counties(value: String): ArrayList<String> {
-
-
+        sub_county_value.visibility=View.GONE
+        sub_coounty_progress.visibility=View.VISIBLE
         val url =
-            "https://daudi.azurewebsites.net/nyumbakumi/my_associations/get_counties.php" +
-                    "?value=" + value
+            "https://daudi.azurewebsites.net/nyumbakumi/my_associations/get_counties.php"
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, url, Response.Listener { response ->
 
-                if (response.equals("unsuccessful")) {
-                    Log.d("sub_counties_data", response)
-                } else {
-                    Log.d("sub_counties_data", response)
+                Log.d("sub_response",response)
+
+                try {
+                    var jsonObject = JSONObject(response)
+                    var response=jsonObject.getString("response")
+
+                    when(response)
+                    {
+                        "successful"->{
+                          //  sub_coounty_progress.visibility=View.GONE
+
+                            var json_data = jsonObject.getString("data")
+                            var jsonarray= JSONArray("["+json_data+"]")
+                            sub_counties_list.clear()
 
 
-                    //  var jsonObject = JSONObject(response)
-                    //   var jsonarray = jsonObject.getJSONArray("sub_counties_list")
-                    // Log.d("sub_counties_data", jsonarray.toString())
+                            for (i in 0 .. jsonarray.length()) {
 
-                    var dd = "{\"counties_list\":[" + response + "]}"
-                    Log.d("ggy", dd)
+                                //  for (i in 0 until jsonarray.length()) {
+                                sub_counties_list.add(jsonarray[i].toString())
+                                Log.d("sub_respons","sub="+ sub_counties_list.toString()+"i="+i+"jsonarray="+jsonarray.length())
+                                if (i+1==jsonarray.length())
+                                {
+                                    sub_county_value.visibility=View.VISIBLE
 
-                    var mdd = dd.replace("\\", "")
+                                    sub_counties_alert(rootView_association_add!!)
+                                }
+                            }
+                            val MyPreferences = "mypref"
+                            var sharedPreferences =
+                                getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+                            // String session_ide= sharedPreferences.getString("sessions_ids","");
+                            val editor = sharedPreferences.edit()
 
-                    val jsonObject = JSONObject(mdd)
-                    var jsonarray = jsonObject.getJSONArray("counties_list")
-                    sub_counties_list.clear()
 
-                    for (i in 0 until jsonarray.length()) {
+                            // String phone_number_= phone_number.getText().toString().trim();
+                            editor.remove("counties_json")
 
 
 
-                        //  for (i in 0 until jsonarray.length()) {
-                        sub_counties_list.add(jsonarray[i].toString())
+                            editor.putString("counties_json", response)
+                            // editor.putString("phone_numbers",phone_number_);
+                            editor.apply()
+
+                        }
+                            "unsuccessful"->{}
+                        "error"->{}
+                        else->
+                        {}
+
                     }
+                    var data = jsonObject.getString("data")
+                }catch (e: JSONException)
+                {}catch (e: ParseException)
+                {
 
-                    val MyPreferences = "mypref"
-                    var sharedPreferences =
-                        getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-                    // String session_ide= sharedPreferences.getString("sessions_ids","");
-                    val editor = sharedPreferences.edit()
-
-
-                    // String phone_number_= phone_number.getText().toString().trim();
-                    editor.remove("counties_json")
-                    editor.putString("counties_json", response)
-                    // editor.putString("phone_numbers",phone_number_);
-                    editor.apply()
                 }
+
 
 
             }, Response.ErrorListener {
                 Log.i("Volley_Error", it.toString())
 
-            }) {}
+            }) {
+
+                @Throws(AuthFailureError::class)
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+
+
+                    params["value"] = value
+
+                    return params
+                }
+
+
+
+
+            }
+
+
+
+
+
 
         val requestQueue = Volley.newRequestQueue(this)
 
@@ -479,16 +539,15 @@ class Association_add : AppCompatActivity() {
 
     private fun fetch_associations_volley(query: String) {
 
+
+
+
         Log.d("query_value", query)
         if (query.isEmpty()) {
             statement_data.clear()
         }
-        val url =
-            "https://daudi.azurewebsites.net/nyumbakumi/my_associations/association_search.php" +
-                    "?query=" + query
-        val stringRequest: StringRequest = object : StringRequest(
-            Method.GET, url,
-            Response.Listener { response ->
+        val url ="https://daudi.azurewebsites.net/nyumbakumi/my_associations/association_search.php"
+        val stringRequest: StringRequest = object : StringRequest(Method.POST, url,Response.Listener { response ->
                 Log.i("Responsed", response)
                 var jsonObject: JSONObject? = null
                 try {
@@ -499,6 +558,7 @@ class Association_add : AppCompatActivity() {
                             Toast.makeText(applicationContext, "Unsuccessful", Toast.LENGTH_LONG)
                                 .show()
 
+                            counties_card_view.visibility=View.VISIBLE
 
                             progress!!.visibility = View.GONE
 
@@ -509,36 +569,42 @@ class Association_add : AppCompatActivity() {
                             if (data.length() == 0) {
 
                                 recycler_view.visibility = View.GONE
+                                counties_card_view.visibility=View.VISIBLE
+                                sub_coounty_progress.visibility = View.GONE
+
+                                Toast.makeText(this,"No such association",Toast.LENGTH_LONG).show()
                                 statement_data.clear()
                             } else {
                                 recycler_view.visibility = View.VISIBLE
+                                sub_coounty_progress.visibility = View.GONE
+
+                                for (i in 0..data.length() - 1) {
+
+                                    val association_data = data.getJSONObject(i)
+                                    val association_data_array = associations_data_class(
+                                        association_data.getString("association_name"),
+                                        association_data.getString("county"),
+                                        association_data.getString("sub_county"),
+                                        association_data.getString("association_id"),
+                                        association_data.getString("association_polygon_list")
+                                    )
+
+
+                                    val adap = Associations_search_adapter(statement_data, this,rootView_association_add)
+
+
+
+                                    statement_data.add(association_data_array)
+
+                                    Log.d("association_data", statement_data.toString())
+
+                                    recycler_view.layoutManager = LinearLayoutManager(this)
+
+                                    adap.notifyDataSetChanged()
+                                    recycler_view.adapter = adap
+                                }
+                                //progressbar!!.visibility = View.INVISIBLE
                             }
-                            for (i in 0..data.length() - 1) {
-
-                                val association_data = data.getJSONObject(i)
-                                val association_data_array = associations_data_class(
-                                    association_data.getString("association_name"),
-                                    association_data.getString("county"),
-                                    association_data.getString("sub_county"),
-                                    association_data.getString("association_id"),
-                                    association_data.getString("association_polygon_list")
-                                )
-
-
-                                val adap = Associations_search_adapter(statement_data, this)
-
-
-
-                                statement_data.add(association_data_array)
-
-                                Log.d("association_data", statement_data.toString())
-
-                                recycler_view.layoutManager = LinearLayoutManager(this)
-
-                                adap.notifyDataSetChanged()
-                                recycler_view.adapter = adap
-                            }
-                            //progressbar!!.visibility = View.INVISIBLE
                         }
                     }
                 } catch (e: JSONException) {
@@ -549,6 +615,21 @@ class Association_add : AppCompatActivity() {
                 Log.i("Volley_Error", error.toString())
                 //  progressbar!!.visibility = View.INVISIBLE
             }) {
+
+
+
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                var params: MutableMap<String, String> =
+                    HashMap()
+
+
+                params.put("county", county_value.text.toString())
+                params.put("sub_county_value", sub_county_value.text.toString())
+                params.put("query", query)
+
+                return params
+            }
 
         }
         val requestQueue = Volley.newRequestQueue(this)
@@ -569,16 +650,15 @@ class Association_add : AppCompatActivity() {
 
         when (view.id) {
 
-            R.id.association_name_card -> {
+         /*   R.id.association_name_card -> {
 
                 counties_card_view.visibility = View.GONE
                 associations_details_card.visibility = View.GONE
                 searchview.visibility = View.VISIBLE
                 search_description_text.visibility = View.VISIBLE
                 recycler_view.visibility = View.VISIBLE
-            }
-            R.id.residense_type_card -> {
-            }
+            }*/
+
         }
 
     }
@@ -609,7 +689,12 @@ class Association_add : AppCompatActivity() {
         getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-       editor.remove("primary_residense_polygon_list");
+
+
+
+                          editor.remove("association_add_status");
+                          editor.putString("association_add_status", "updated")
+                          editor.remove("primary_residense_polygon_list");
     editor.putString("primary_residense_polygon_list", listLatLngs_arraylist.toString())
 
     editor.apply()
@@ -654,7 +739,7 @@ class Association_add : AppCompatActivity() {
 
                     params["id_no_value"] = id_no_value!!
                     params["association_id"] = association_id_value
-                    params["residence_type_value"] = residence_type_value.text.toString()
+                    params["residence_type_value"] = "Primary"
 
 
                     return params
@@ -674,12 +759,53 @@ class Association_add : AppCompatActivity() {
                 }
                 Toast.makeText(this,"Records saved successfully", Toast.LENGTH_LONG).show()
 
-                val intent =
-                    Intent(applicationContext,DashBoard::class.java)
-                startActivity(intent)
             }
 
+
+
+
     }
+
+    override fun onBackPressed() {
+
+       // super.onBackPressed()
+
+        val MyPreferences = "mypref"
+        val sharedPreferences =
+            getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        // String session_id= sharedPreferences.getString("sessions_ids","");
+
+        val association_add_status = sharedPreferences.getString("association_add_status", "!updated")
+        if (association_add_status.equals("!updated"))
+        {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("You have not conluded registration. \n" +"Do you still want exit?")
+                .setPositiveButton("Yes",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // super.onBackPressed()
+
+                        finish()
+
+                    })
+                .setNegativeButton("No",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+
+                    })
+            // Create the AlertDialog object and return it
+            builder.create()
+            builder.show()
+        }
+        else{
+            super.onBackPressed()
+
+        }
+    }
+
+
+
+
+
 
 }
 
