@@ -82,7 +82,7 @@ if (emerge.visibility==View.VISIBLE)
         val occupation_value = occupation.getText().toString()
         val gender_value = gender.getText().toString()
         val marital_status_value = marital_status.getText().toString()
-        val wife_id_no_value = wife_id_no.getText().toString()
+        val wife_id_no_value = wife_id_no.text.toString()
         val no_of_children_value = no_of_children.getText().toString()
 
 
@@ -113,14 +113,14 @@ if (emerge.visibility==View.VISIBLE)
             this.update_profile.visibility = View.VISIBLE
         } else if (marital_status_value.equals("yes")) {
 
-            if (wife_id_no_value.isEmpty())
+          /*  if (wife_id_no_value.isEmpty())
             { wife_id_no.setError("all fields are required")
                 Log.d("profile_insert","wife id value")
 
                 this.progress.visibility = View.GONE
                 this.update_profile.visibility = View.VISIBLE
             }
-
+*/
         } else if (TextUtils.isEmpty(no_of_children_value)) {
             no_of_children.setError("Password required ")
             Log.d("profile_insert","no of children")
@@ -150,13 +150,15 @@ if (emerge.visibility==View.VISIBLE)
                     val responses = jsonObject.getString("response")
                     when (responses) {
                         "successful" -> {
+
                             Toast.makeText(
                                 applicationContext,
                                 "Profile Updated successfully",
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            progress.visibility=View.GONE
+                            this.progress.visibility=View.GONE
+                            this.update_profile.visibility = View.VISIBLE
 
                             val MyPreferences="mypref"
                             val sharedPreferences =
@@ -189,6 +191,8 @@ if (emerge.visibility==View.VISIBLE)
                         }
                     }
                 } catch (e: JSONException) {
+                    this.progress.visibility = View.GONE
+                    this.update_profile.visibility = View.VISIBLE
                     e.printStackTrace()
                 }
             }, Response.ErrorListener { error ->
@@ -212,8 +216,8 @@ if (emerge.visibility==View.VISIBLE)
                 params["id_no"] = id_no.toString()
                 params["occupation"] = occupation
                 params["gender"] = gender
-                params["marital_status"] = marital_status
-                params["wife_id_no"] = wife_id_no
+              //  params["marital_status"] = marital_status
+              //  params["wife_id_no"] = wife_id_no
                 params["no_of_children"] = no_of_children
                 params["name_of_primary_emergency_contact"] = primary_contact_name.text.toString()
                 params["id_of_primary_emergency_contact"] = primary_contact_id.text.toString()
@@ -257,7 +261,7 @@ if (emerge.visibility==View.VISIBLE)
                 R.id.yes ->
                     if (checked) {
                         marital_status.setText("yes")
-                        wife_id_no.visibility=View.VISIBLE
+                     //   wife_id_no.visibility=View.VISIBLE
                     }
                 R.id.no ->
                     if (checked) {

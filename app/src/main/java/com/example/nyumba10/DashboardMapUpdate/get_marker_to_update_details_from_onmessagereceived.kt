@@ -16,6 +16,8 @@ class get_marker_to_update_details_from_onmessagereceived {
 suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
 {
     var message_JSONobject=JSONObject(message)
+    var mobile_no_value=message_JSONobject.getString("mobile_no")
+
     var crime_description=message_JSONobject.getString("crime_description")
     var crime_time_and_date_value=message_JSONobject.getString("crime_time_and_date_value")
     var listLatLng_todb=message_JSONobject.getString("listLatLng_todb")
@@ -31,7 +33,8 @@ suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
          crime_time_and_date_value,
          incident_type,
           crime_description,
-          location_descr
+          location_descr,
+        mobile_no_value
     )
 
 
@@ -53,8 +56,6 @@ suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
 
         var latlong_jsonobject=listlang.getJSONObject(0)
         var latlong=latlong_jsonobject.getString(name)
-
-
 
 
         return latlong

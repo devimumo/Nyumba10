@@ -39,8 +39,6 @@ val cc=view.context
             val intent = Intent(this, Association_add::class.java)
             startActivity(intent)
 
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
         }
     }
 }

@@ -34,6 +34,7 @@ private var rootView_statistics: View? = null
 private var from_time_value: String=""
 private var to_time_value: String=""
 private var crime_time_and_date_valuess: String=""
+private var labels = ArrayList<String>()
 
 private var crime_time_and_date_value = ""
 private var crime_time_and_date_value_now= ""
@@ -75,13 +76,20 @@ class Statistics : AppCompatActivity() {
         }
                  get_crime_data()
 
+
+
+        query_crime_data.setOnClickListener {
+
+            get_crime_data()
+        }
+
     }
 
     private fun setBarChart(
         entries: ArrayList<BarEntry>,
         entries2: ArrayList<BarEntry>,
         entries3: ArrayList<BarEntry>,
-        view: View
+        view: View,labels: ArrayList<String>
     ) {
 
         Log.d("entries",entries.toString())
@@ -124,10 +132,11 @@ var dataset_array=ArrayList<BarDataSet>()
         barDataSet.setColor(Color.RED)
 
         val barDataSet2 = BarDataSet(entries2, "Safety")
-        barDataSet2.setColor(Color.GREEN)
+        barDataSet2.setColor(Color.parseColor("#FF9800"))
 
         val barDataSet3 = BarDataSet(entries3, "Suspicious")
-        barDataSet3.setColor(Color.BLUE)
+        barDataSet3.setColor(Color.parseColor("#098C0F"))
+
 
         //val barDataSet4 = BarDataSet(entries4, "bbs")
       //  barDataSet4.setColor(Color.BLACK)
@@ -139,13 +148,6 @@ var dataset_array=ArrayList<BarDataSet>()
 
 
 
-        val labels = ArrayList<String>()
-        labels.add("Jan")
-        labels.add("Feb")
-        labels.add("Mar")
-        labels.add("Apr")
-        labels.add("may")
-        labels.add("Jun")
 
         var xAxis: XAxis? = view.barChart.xAxis
 
@@ -683,9 +685,18 @@ crime_bar.clear()
             suspicious_bar_.add(BarEntry(xaixs_value.toFloat(),suspicious_count.toFloat()))
             safety_bar.add(BarEntry(xaixs_value.toFloat(),safety_count.toFloat()))
 
+var label_value=change_time_format_one(from.toString())
+           // Log.d("lat_looong",xaixs_value.toString()+"from"+from.toString()+"--"+change_time_format(crime_time_and_date_valuess).toString()+"--"+change_time_format_one(from.toString())+"crime_array="+crime_data_array.length())
 
-            Log.d("lat_looong",xaixs_value.toString()+"  crime="+crime_count.toString()+" Suspicioius="+ suspicious_count.toString()+" safety="+
-                    safety_count.toString()+change_time_format(crime_time_and_date_valuess).toString()+"--"+from.toString()+"crime_array="+crime_data_array.length())
+
+            labels.add(label_value)
+          /*  labels.add("Feb")
+            labels.add("Mar")
+            labels.add("Apr")
+            labels.add("may")
+            labels.add("Jun")*/
+
+
             crime_count=0
             suspicious_count=0
             safety_count=0
@@ -695,11 +706,30 @@ crime_bar.clear()
 
         }
 
-        setBarChart(crime_bar,suspicious_bar_,safety_bar,view)
+        setBarChart(crime_bar,suspicious_bar_,safety_bar,view, labels)
 
 
     }
 
+
+    private fun change_time_format_one(date_given: String): String
+    {
+        var changed_time_format=""
+
+        try {
+
+            var simpleDateFormat=SimpleDateFormat("yyyyMMdd")
+            var new_format=SimpleDateFormat("EEE," +System.getProperty("line.separator")+
+                    " MMM d,\n ''yyyy ")
+            changed_time_format=new_format.format(simpleDateFormat.parse(date_given))
+        }catch (e: Exception)
+        {
+
+        }
+
+        return  changed_time_format
+
+    }
     private fun change_time_format(date_given: String): String
     {
         var changed_time_format=""

@@ -91,7 +91,7 @@ class crimes_incidences_for_myassociation(var context: Context, var crimeInciden
             context.startActivity(intent)
 
 
-            Toast.makeText(it.context,holder_value.tag.toString(), Toast.LENGTH_LONG).show()
+           // Toast.makeText(it.context,holder_value.tag.toString(), Toast.LENGTH_LONG).show()
         }
 
 

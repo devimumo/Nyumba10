@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.crime_info_layout.view.*
 import kotlinx.android.synthetic.main.reportcrime.*
+import kotlinx.android.synthetic.main.reportcrime.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -60,11 +61,11 @@ private var my_location: LatLng?=null
 private var access_fine_location_code = 1
 private var access_fine_location_name = "Access fine location"
 private var incident_type_value_from_radio="crime"
-
+private  var crime_description_text: String=""
 private var crime_time_and_date_value = ""
 private var crime_time_value = ""
 private var crime_date_value = ""
-private var location_description=""
+private var location_description_text: String=""
 private var crime_time_text_value = ""
 private var crime_date_text_value = ""
 private var location_permission=Manifest.permission.ACCESS_FINE_LOCATION
@@ -577,7 +578,23 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
             }
             R.id.report->
             {
-                report_crime_volley(view)
+                if (crime_description_text.isEmpty())
+                {
+                  get_crime_info_alert_dialog()
+                    new_snack_bar("Incident description required",view)
+                }
+                else if (location_description_text.isEmpty())
+                    {
+                        get_crime_info_alert_dialog()
+                        new_snack_bar("location description required",view)
+
+                    }
+                    else
+                {
+                    report_crime_volley(view)
+
+                }
+
             }
         }
 
@@ -666,11 +683,11 @@ if (response.equals("successful"))
                    params.put("phone_number","0")
                    params.put("association_id",association_id!!)
                    params.put("crime_time_and_date_value", crime_time_and_date_value.toString())
-                   params.put("crime_description", crime_description.text.toString())
+                   params.put("crime_description", crime_description_text)
                    params.put("incident_date", crime_date_value.toString())
                    params.put("incident_time", incident_time.text.toString())
                    params.put("incident_type", incident_type_value_from_radio)
-                   params.put("location_description", location_description)
+                   params.put("location_description", location_description_text)
 
 
                    if (listLatLng_todb.isNullOrEmpty())
@@ -693,11 +710,11 @@ if (response.equals("successful"))
                    params.put("phone_number",phone_number!!)
                    params.put("association_id",association_id!!)
                    params.put("crime_time_and_date_value", crime_time_and_date_value.toString())
-                   params.put("crime_description", crime_description.text.toString())
+                   params.put("crime_description", crime_description_text)
                    params.put("incident_date", crime_date_value.toString())
                    params.put("incident_time", incident_time.text.toString())
                    params.put("incident_type", incident_type_value_from_radio)
-                   params.put("location_description", location_description)
+                   params.put("location_description", location_description_text)
 
 
                    if (listLatLng_todb.isNullOrEmpty())
@@ -745,6 +762,10 @@ var location=LatLng(lat,long)
             CameraUpdateFactory.newLatLngZoom(location, 17f))
 
     }
+   private  fun new_snack_bar(error: String?, view: View) {
+        val mysnackbar = Snackbar.make(view, error!!, Snackbar.LENGTH_LONG)
+        mysnackbar.show()
+    }
 
 
     private fun get_crime_info_alert_dialog()
@@ -753,17 +774,17 @@ var location=LatLng(lat,long)
         // Get the layout inflater
         val inflater: LayoutInflater = LayoutInflater.from(this)
         var inflated=inflater.inflate(R.layout.crime_info_layout, null)
-       builder.setView(inflated)
 
+        builder.setView(inflated)
 
-builder.setPositiveButton("Okay",
-    DialogInterface.OnClickListener { dialog, id ->
-        var text_crime_description_radio=inflated.crime_description_radio.text
-        location_description=inflated.location_description.text.toString()
+        builder.setPositiveButton("Okay",
+       DialogInterface.OnClickListener { dialog, id ->
+        crime_description_text=inflated.crime_description_edittext.text.toString()
+        location_description_text=inflated.location_description.text.toString()
         var checked_incident_type=inflated.incident_type_radio
-        crime_description.text=text_crime_description_radio
-    })
-builder.setCancelable(true)
+        crime_description.text=crime_description_text
+         })
+         builder.setCancelable(true)
 
 
 
@@ -772,10 +793,16 @@ builder.setCancelable(true)
             // Add action buttons
 
         builder.create()
+
+
+        inflated.location_description.setText(location_description_text)
+         inflated.crime_description_edittext.setText(crime_description_text)
+
         builder.show()
+
     }
 
-    fun snack_bar(string: String?, view: View) {
+   private  fun snack_bar(string: String?, view: View) {
         val mysnackbar = Snackbar.make(view, string!!, Snackbar.LENGTH_LONG)
         mysnackbar.show()
     }

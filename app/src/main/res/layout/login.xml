@@ -22,7 +22,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/keja2"/>
+                android:src="@drawable/new_app_logo"/>
 
         </LinearLayout>
 
@@ -107,7 +107,6 @@
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     android:textColor="@color/ghostWhite"
-                    android:text="Lucky270"
                     android:background="@drawable/edittexts_username"
                     android:inputType="textPassword"
                     android:hint="Password"/>

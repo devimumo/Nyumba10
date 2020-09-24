@@ -480,7 +480,7 @@
                       android:layout_height="40dp"
                       android:layout_gravity="center"
                       android:layout_marginTop="10dp"
-
+android:visibility="gone"
                       android:background="@drawable/edittexts_radio"
                       android:gravity="center"
                       android:orientation="horizontal"

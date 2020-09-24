@@ -13,26 +13,26 @@ import com.google.android.material.snackbar.Snackbar
 
 
         if (it is TimeoutError || it is NoConnectionError) {
-            snack_bar(it.toString(),view)
+            snack_bar(" No connection",view)
 
 
 
             //This indicates that the reuest has either time out or there is no connection
         } else if (it is AuthFailureError) {
-            snack_bar(it.toString(), view)
+            snack_bar(" No connection", view)
 
 
         } else if (it is ServerError) {
-            snack_bar(it.toString(), view)
+            snack_bar(" No connection", view)
 
 
         } else if (it is NetworkError) {
-            snack_bar(it.toString(), view)
+            snack_bar(" No connection", view)
 
 
 
         } else if (it is ParseError) {
-            snack_bar(it.toString(), view)
+            snack_bar(" No connection", view)
 
 
 

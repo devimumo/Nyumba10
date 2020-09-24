@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".Dashboard.Stats.Statistics">
 
     <TextView
@@ -21,15 +22,17 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:gravity="center"
+        android:paddingBottom="8dp"
         android:onClick="radioclick"
         android:orientation="horizontal"
-        app:layout_constraintVertical_bias="0.1"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        >
+        app:layout_constraintVertical_bias="0.068"
+        app:layout_constraintWidth_percent="0.9">
 
         <RadioButton
             android:id="@+id/crime_radio"
@@ -63,21 +66,21 @@
     <LinearLayout
         android:id="@+id/time_date"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@drawable/edittexts"
         android:gravity="center"
-        android:maxHeight="70dp"
+        android:maxHeight="80dp"
         android:minHeight="70dp"
         android:orientation="vertical"
-        android:padding="6dp"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.11"
         app:layout_constraintHorizontal_bias="0.205"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/incident_type_radio_group"
+        app:layout_constraintTop_toTopOf="@+id/incident_type_radio_group"
+        app:layout_constraintVertical_bias="0.519"
         app:layout_constraintWidth_percent="0.35">
-
 
 
         <LinearLayout
@@ -85,17 +88,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+
             android:onClick="click"
-            >
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/incident_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxHeight="20dp"
                 android:layout_gravity="center"
                 android:layout_weight="3"
                 android:gravity="center"
+                android:maxHeight="20dp"
                 android:text=" 20/07/2020"
                 android:textAlignment="center"
                 android:textColor="@color/black" />
@@ -114,8 +118,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+
             android:onClick="click"
-            android:paddingTop="7dp">
+            android:paddingTop="7dp"
+            android:visibility="visible">
 
 
             <TextView
@@ -144,19 +150,20 @@
     <LinearLayout
         android:id="@+id/time_date_now"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+
         android:background="@drawable/edittexts"
         android:gravity="center"
-        android:maxHeight="70dp"
+        android:maxHeight="80dp"
         android:minHeight="70dp"
         android:orientation="vertical"
-        android:padding="6dp"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/time_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.857"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/time_date"
-        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHeight_percent="0.11"
+        app:layout_constraintStart_toEndOf="@+id/time_date"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.851"
         app:layout_constraintWidth_percent="0.35">
 
         <LinearLayout
@@ -164,7 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:onClick="click">
+            android:onClick="click"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/incident_date_now"
@@ -192,7 +200,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:onClick="click"
-            android:paddingTop="7dp">
+
+            android:paddingTop="7dp"
+            android:visibility="visible">
 
 
             <TextView
@@ -229,20 +239,33 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:minHeight="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHeight_percent="0.6"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="400dp"
+            android:minHeight="300dp"
+
             />
     </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/query_crime_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:text="Query crime data"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/nestedScrollView2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Dashboard.GroupChat.adapter.association_group_chat_adapter
 import com.example.nyumba10.Dashboard.Peer_to_peer_chat.adapter.peer_to_peer_chat_recycler_adapter
+import com.example.nyumba10.Dashboard.Peer_to_peer_chat.retreive_chats_from_room_database_for_peer_to_peer_chats
 import com.example.nyumba10.Helper_classes.Volley_ErrorListener_Handler
 import com.example.nyumba10.R
 import com.example.nyumba10.Worker.set_message_payload_to_peer_to_peer_entity
@@ -38,7 +39,8 @@ private lateinit var receiver_phone_no: String
 private lateinit var receiver_username: String
 var set_message_payload_instanse_for_peer_to_peer_chats= set_message_payload_to_peer_to_peer_entity()
 private val chats_payload_arraylist = ArrayList<association_chat_messages_dataclass>()
-private var get_message_instanse=retreive_chats_from_room_database_for_peer_to_peer_chats()
+
+private var get_message_instanse= retreive_chats_from_room_database_for_peer_to_peer_chats()
 private var time_return_value: String=""
 private  lateinit var recycler_view: RecyclerView
 private lateinit var unique_id_value_from_members: String
@@ -67,7 +69,6 @@ receiver_phone_no= intent.getStringExtra("receiver_phone_no").toString()
     suspend fun set_to_recycler(context: Context, messagesJson: String) {
 
          recycler_view = rootView?.chats_list_recycler_view!!
-text_no_data= rootView?.no_chats!!
         recycler_view?.layoutManager = LinearLayoutManager(context)
         (recycler_view?.layoutManager as LinearLayoutManager).setStackFromEnd(true)
 
@@ -76,7 +77,6 @@ text_no_data= rootView?.no_chats!!
         var messagesJson_array= JSONArray(messagesJson)
 
         if (messagesJson_array.length()!=0) {
-
             for (i in 0..messagesJson_array.length() - 1) {
 
 
@@ -111,11 +111,7 @@ text_no_data.visibility=View.VISIBLE
           //
         }
 
-
-
-
     }
-
 
     private fun time_value(timeSend: String): String
     {
@@ -171,7 +167,7 @@ text_no_data.visibility=View.VISIBLE
 
         val id_no = sharedPreferences.getString("id_no", "")
         val firstname = sharedPreferences.getString("firstname", "")
-       val sender_mobile_no="254"+sharedPreferences.getString("phone_number","")
+       val sender_mobile_no=sharedPreferences.getString("phone_number","")
         var time_value= SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
         val association_id=sharedPreferences.getString("association_id","")
 
@@ -221,11 +217,13 @@ Log.d("response",response)
                 if (status.equals("successful"))
                 {
 
+                    chat_message.text.clear()
 
                 }
                 else{
 
-                }            } catch (e: JSONException) {
+                }
+            } catch (e: JSONException) {
 
                 Log.d("jsonJSONException",e.toString())
 

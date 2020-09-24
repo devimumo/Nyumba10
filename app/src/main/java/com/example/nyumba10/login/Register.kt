@@ -125,10 +125,45 @@ class RegisterActivity : AppCompatActivity() {
         } else {
 
 
-                register(FirstName, LastName, Email,id_no, Mobile_no, Password)
 
+get_crime_info_alert_dialog(FirstName, LastName, Email,id_no, Mobile_no, Password)
 
         }
+    }
+
+
+
+    private fun get_crime_info_alert_dialog(FirstName: String,LastName: String,Email: String,id_no: String,Mobile_no: String,Password: String)
+    {
+        val builder = AlertDialog.Builder(this)
+        // Get the layout inflater
+        val inflater: LayoutInflater = LayoutInflater.from(this)
+        var inflated=inflater.inflate(R.layout.association_rules_layout, null)
+
+        builder.setView(inflated)
+        builder.setTitle("By clicking okay you agree to the rules set by the Nyumba Kumi associations")
+
+        builder.setPositiveButton("Okay",
+            DialogInterface.OnClickListener { dialog, id ->
+
+                register(FirstName, LastName, Email,id_no, Mobile_no, Password)
+
+            })
+        builder.setCancelable(true)
+
+
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        // Add action buttons
+
+        builder.create()
+
+
+
+
+        builder.show()
+
     }
 
     private fun register(FirstName: String,LastName: String,Email: String,id_no: String,Mobile_no: String,Password: String
@@ -167,6 +202,7 @@ class RegisterActivity : AppCompatActivity() {
 
                             editor.apply()
                             progress!!.visibility = View.GONE
+                            signUp.visibility=View.VISIBLE
 
 
                             val intent =Intent(applicationContext, Confirm_account_activation_pin::class.java)
@@ -174,7 +210,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         }
                         "mobile_no_exists" -> {
-                            Toast.makeText(applicationContext, "Register with a different mobile  no", Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext, "User already exists. \n Register with a different mobile  no", Toast.LENGTH_LONG).show()
                             progress!!.visibility = View.GONE
                             signUp!!.visibility = View.VISIBLE
                         }
@@ -185,11 +221,14 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         else -> {
                             Toast.makeText(applicationContext, "Try again$response", Toast.LENGTH_LONG).show()
-                            //progressbar!!.visibility = View.INVISIBLE
+                            progress!!.visibility = View.GONE
                             signUp!!.visibility = View.VISIBLE
                         }
                     }
                 } catch (e: JSONException) {
+
+                    progress!!.visibility = View.GONE
+                    signUp.visibility=View.VISIBLE
                     e.printStackTrace()
                 }
             }, Response.ErrorListener { error ->
@@ -234,7 +273,7 @@ class RegisterActivity : AppCompatActivity() {
         mysnackbar.show()
     }
 
-    private fun get_crime_info_alert_dialog()
+  /*  private fun get_crime_info_alert_dialog()
     {
         val builder = AlertDialog.Builder(this)
         // Get the layout inflater
@@ -245,7 +284,7 @@ class RegisterActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Okay",
             DialogInterface.OnClickListener { dialog, id ->
-                var text_crime_description_radio=inflated.crime_description_radio.text
+                var text_crime_description_radio=inflated.crime_description_edittext.text
                 //location_description =inflated.location_description.text.toString()
                 var checked_incident_type=inflated.incident_type_radio
                // crime_description.text=text_crime_description_radio
@@ -260,7 +299,7 @@ class RegisterActivity : AppCompatActivity() {
 
         builder.create()
         builder.show()
-    }
+    }*/
 
 }
 

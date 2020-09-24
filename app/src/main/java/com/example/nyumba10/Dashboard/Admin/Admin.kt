@@ -7,6 +7,7 @@ import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nyumba10.Dashboard.Admin.ui.main.SectionsPagerAdapter
+import com.example.nyumba10.Dashboard.Choose_admin_activity
 import com.example.nyumba10.Dashboard.Maps.Maps_activity
 import com.example.nyumba10.R
 
@@ -26,7 +27,7 @@ class Admin : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            var intent=Intent(this, Maps_activity::class.java)
+            var intent=Intent(this, Choose_admin_activity::class.java)
             startActivity(intent)
         //    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
         }

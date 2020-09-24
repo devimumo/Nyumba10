@@ -676,45 +676,64 @@ class Association_add : AppCompatActivity() {
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, url, Response.Listener {
 
-                Log.d("ssew",it)
-
-               var jsonObject = JSONObject(it)
-
-             var response=jsonObject.getString("response")
-                 when(response){
-                      "successful"->{
-
-    val MyPreferences="mypref"
-    val sharedPreferences =
-        getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+Log.d("associat_add_res",it.toString())
+                try {
 
 
+                    var jsonObject = JSONObject(it)
+
+                    var response=jsonObject.getString("response")
+                    when(response){
+                        "successful"->{
+
+                            save_association_membership_details.visibility=View.VISIBLE
+
+                            save_association_details_progressbar.visibility=View.GONE
+
+                            val MyPreferences="mypref"
+                            val sharedPreferences =
+                                getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+                            val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
 
-                          editor.remove("association_add_status");
-                          editor.putString("association_add_status", "updated")
-                          editor.remove("primary_residense_polygon_list");
-    editor.putString("primary_residense_polygon_list", listLatLngs_arraylist.toString())
-
-    editor.apply()
 
 
-                          save_association_details_progressbar.visibility=View.GONE
-                          
-                          send_firebasetopic_subscription(association_id_value)
+                            editor.remove("association_add_status");
+                            editor.putString("association_add_status", "updated")
+                            editor.remove("primary_residense_polygon_list");
+                            editor.putString("primary_residense_polygon_list", listLatLngs_arraylist.toString())
 
-                          val intent= Intent(this, Login::class.java)
-                          startActivity(intent)
-}
-                else-> {
+                            editor.apply()
+
+
+                            save_association_details_progressbar.visibility=View.GONE
+
+                            send_firebasetopic_subscription(association_id_value)
+
+                            val intent= Intent(this, Login::class.java)
+                            startActivity(intent)
+                        }
+                        else-> {
+
+                            save_association_membership_details.visibility=View.VISIBLE
+
+                            save_association_details_progressbar.visibility=View.GONE
+
+                            Toast.makeText(this, "Records not saved", Toast.LENGTH_LONG).show()
+                            save_association_details_progressbar.visibility = View.GONE
+
+                        }}
+                }catch (e: JSONException)
+                {
+
                     save_association_membership_details.visibility=View.VISIBLE
 
-                    Toast.makeText(this, "Records not saved", Toast.LENGTH_LONG).show()
-                    save_association_details_progressbar.visibility = View.GONE
+                    save_association_details_progressbar.visibility=View.GONE
+                    Log.d("JSONexec_error",e.toString())
 
                 }
-}
+
+
 
 
             }, Response.ErrorListener {

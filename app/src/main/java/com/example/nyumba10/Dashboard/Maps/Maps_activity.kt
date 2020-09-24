@@ -306,6 +306,7 @@ counties_alert(view)
                 when(status)
                 {
                     "successful"->{
+                        Toast.makeText(this,"Association created successfully",Toast.LENGTH_LONG).show()
                         save_new_association_data.visibility= View.VISIBLE
                         map_progress_bar.visibility= View.GONE
 

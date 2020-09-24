@@ -47,7 +47,7 @@ get_message_instanse.retreive_chats_from_room_database(applicationContext)
         var recycler_view = rootView?.chats_list_recycler_view
 
         recycler_view?.layoutManager = LinearLayoutManager(context)
-        (recycler_view?.layoutManager as LinearLayoutManager).setStackFromEnd(true)
+        (recycler_view!!.layoutManager as LinearLayoutManager).setStackFromEnd(true)
 
         chats_payload_arraylist.clear()
 
@@ -178,7 +178,7 @@ get_message_instanse.retreive_chats_from_room_database(applicationContext)
                 var status=response_jsonobject.getString("response")
                 if (status.equals("successful"))
                 {
-
+                chat_message.text.clear()
                 }
                 else{
 

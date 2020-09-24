@@ -84,7 +84,8 @@ set_crime_data_to_recycler_adapter(crime_data,view)
                 data_at_position.getString("crime_time_and_date_value"),
                 data_at_position.getString("incident_type"),
                 data_at_position.getString("crime_description"),
-                data_at_position.getString("location_description")
+                data_at_position.getString("location_description"),
+                data_at_position.getString("mobile_no")
 
 
 

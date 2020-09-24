@@ -1,9 +1,16 @@
 package com.example.nyumba10.Dashboard.Admin
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.nyumba10.Dashboard.Admin.Crime_incidences.crime_incidences_data_class
@@ -26,12 +33,14 @@ class Crime_data_fuul_details : AppCompatActivity(), OnMapReadyCallback {
     private  var time=""
     private  var location_description=""
     private  var time_from_crime_data=""
+    private var mobile_no_value=""
 
     private lateinit var latlong: LatLng
     private  var incident_type=""
     private var crime_arraylist_tosend_to_full_details_acitivity: List<crime_incidences_data_class> = ArrayList<crime_incidences_data_class>()
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crime_data_fuul_details)
@@ -49,6 +58,11 @@ class Crime_data_fuul_details : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+        call_member.setOnClickListener {
+calling_permission()
+        }
     }
 
     /**
@@ -103,6 +117,15 @@ private fun set_data_to_view(crime_data: crime_incidences_data_class)
     latlong=get_latlong(crime_data.latong)
     incident_type=crime_data.incident_type
     location_description=crime_data.location_description
+    mobile_no_value=crime_data.mobile_no
+
+    if (mobile_no_value.length>5)
+    {
+
+    }
+    else{
+
+    }
     incident_type_textview.text=incident_type
     crime_description_textview.text=crime_data.crime_description
     time_textview.text=time
@@ -199,7 +222,6 @@ private fun set_data_to_view(crime_data: crime_incidences_data_class)
 
         }
 
-
         return  time_changed
     }
 
@@ -212,4 +234,70 @@ private fun set_data_to_view(crime_data: crime_incidences_data_class)
         //  Log.d("data_fro_marker",data_fro_marker.toString())
         return  data_fro_marker
     }
+
+
+    private fun call_member_function(phonenumber: String)
+    {
+
+
+        val caLl_intent= Intent(Intent.ACTION_CALL)
+        caLl_intent.data= Uri.parse("tel:"+"+254"+mobile_no_value)
+        startActivity(caLl_intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun calling_permission() {
+        if (ActivityCompat.checkSelfPermission( this,Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ) {
+
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
+                requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 6)
+
+            }
+            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 6)
+            Toast.makeText(this,"Calling permission required", Toast.LENGTH_LONG).show()
+
+        }
+        else
+        {
+            call_member_function("")
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            6-> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+call_member_function("")
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    android.widget.Toast.makeText(
+                        this,
+                        "Call permission is denied",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+
+                    //  finish()
+                }
+                return
+            }
+
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
+
 }

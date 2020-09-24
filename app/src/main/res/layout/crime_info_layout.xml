@@ -52,10 +52,10 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/crime_description_radio"
+        android:id="@+id/crime_description_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Crime description"
+        android:hint="Incident description"
         android:maxHeight="200dp"
         android:minHeight="40dp"
         android:layout_marginTop="7dp"
@@ -79,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crime_description_radio"
+        app:layout_constraintTop_toBottomOf="@+id/crime_description_edittext"
         app:layout_constraintWidth_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

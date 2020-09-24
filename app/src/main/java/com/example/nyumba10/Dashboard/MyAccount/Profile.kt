@@ -196,7 +196,7 @@ view?.no?.isChecked=true      }
 
 // Request a string response from the provided URL.
         val stringRequest = StringRequest( Request.Method.GET, url,
-            Response.Listener<String> { response ->
+            { response ->
 var success_state=JSONObject(response)
                 var success=success_state.getString("response")
 
@@ -224,7 +224,7 @@ var success_state=JSONObject(response)
                 Log.d("profile_response",response)
                 // Display the first 500 characters of the response string.
             },
-            Response.ErrorListener {
+            {
                 val err= Volley_ErrorListener_Handler()
 
                 err.check_error(it,view)
@@ -341,13 +341,13 @@ val context=view.context
             this.update_profile.visibility = View.VISIBLE
         } else if (marital_status_value.equals("yes")) {
 
-            if (wife_id_no_value.isEmpty())
+          /*  if (wife_id_no_value.isEmpty())
             { wife_id_no.setError("all fields are required")
                 Log.d("profile_insert","wife id value")
 
                 this.progress.visibility = View.GONE
                 this.update_profile.visibility = View.VISIBLE
-            }
+            }*/
 
         } else if (TextUtils.isEmpty(no_of_children_value)) {
             no_of_children.setError("Password required ")
@@ -373,7 +373,7 @@ val context=view.context
         val wife_id_no_value = view.wife_id_no.getText().toString()
         val no_of_children_value = view.no_of_children.getText().toString()
         
-        val url =            "https://daudi.azurewebsites.net/nyumbakumi/login/profile.php"
+        val url =   "https://daudi.azurewebsites.net/nyumbakumi/login/profile.php"
         val stringRequest: StringRequest = object : StringRequest(Method.POST, url, Response.Listener { response ->
                 Log.i("Responsed", response)
                 var jsonObject: JSONObject? = null
@@ -382,6 +382,8 @@ val context=view.context
                     val responses = jsonObject.getString("response")
                     when (responses) {
                         "successful" -> {
+                            this.progress.visibility = View.GONE
+                            this.update_profile.visibility = View.VISIBLE
                             Toast.makeText(context, "Profile Updated successfully", Toast.LENGTH_LONG).show()
                             val intent =
                                 Intent(context, DashBoard::class.java)
@@ -389,7 +391,8 @@ val context=view.context
                             // String session_ide= sharedPreferences.getString("sessions_ids","");
 
                             val MyPreferences="mypref"
-                            val sharedPreferences =view?.context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+                            val sharedPreferences =
+                                view.context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
 
                             val editor = sharedPreferences?.edit()
 
@@ -414,6 +417,8 @@ val context=view.context
                         }
                     }
                 } catch (e: JSONException) {
+                    this.progress.visibility = View.INVISIBLE
+                    this.update_profile.visibility = View.VISIBLE
                     e.printStackTrace()
                 }
             }, Response.ErrorListener { error ->
@@ -435,8 +440,8 @@ val context=view.context
                 params["id_no"] = id_no.toString()
                 params["occupation"] = occupation
                 params["gender"] = gender_value_edit_value
-                params["marital_status"] = marital_status_value_edit_value
-                params["wife_id_no"] = wife_id_no
+              //  params["marital_status"] = marital_status_value_edit_value
+              //  params["wife_id_no"] = wife_id_no
                 params["no_of_children"] = no_of_children
                 params["name_of_primary_emergency_contact"] = primary_contact_name.text.toString()
                 params["id_of_primary_emergency_contact"] = primary_contact_id.text.toString()

@@ -85,7 +85,7 @@ var profile_status=sharedPreferences.getString("profile_status", "!updated")
                 startActivity(intent)
             }
             finish()
-        } , 4) // here we're delaying to startActivity after 3seconds
+        } , 2500) // here we're delaying to startActivity after 3seconds
 
     }
 }

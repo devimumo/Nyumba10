@@ -86,8 +86,6 @@ crime_arraylist_tosend_to_full_details_acitivity.clear()
             context.startActivity(intent)
 
 
-
-            Toast.makeText(it.context,holder_value.tag.toString(),Toast.LENGTH_LONG).show()
         }
 
 

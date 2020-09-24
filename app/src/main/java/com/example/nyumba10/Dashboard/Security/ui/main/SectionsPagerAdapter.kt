@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.nyumba10.Dashboard.Admin.Incidences_Crimes
 import com.example.nyumba10.Dashboard.Security.Associations
 import com.example.nyumba10.Dashboard.Security.CrimeIncidences
 import com.example.nyumba10.R
@@ -27,7 +28,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         {
             0->
             {
-                return CrimeIncidences()
+                return Incidences_Crimes()
             }
             1->
             {
@@ -38,7 +39,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
             2->
             {
 
-                return CrimeIncidences()
+                return Incidences_Crimes()
             }
 
             else->return CrimeIncidences()

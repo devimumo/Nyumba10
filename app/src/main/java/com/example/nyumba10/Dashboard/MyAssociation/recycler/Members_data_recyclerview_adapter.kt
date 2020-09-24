@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ import java.util.*
 private var this_view: View?=null
 private  var designation: String="MEMBER"
 
+
 class Members_data_recyclerview_adapter(
     var context: Context,
     var members_data_arraylist: ArrayList<members_data_class>,
@@ -35,13 +37,15 @@ class Members_data_recyclerview_adapter(
     RecyclerView.Adapter<Members_data_recyclerview_adapter.Viewholder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
 
-var view=LayoutInflater.from(parent.context).inflate(
-    R.layout.members_data_recyclerview_layout,
-    parent,
-    false
-)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
+        Log.d("fika_here","fika")
+        var view=LayoutInflater.from(parent.context).inflate(
+            R.layout.members_data_recyclerview_layout,
+            parent,
+            false
+        )
 
         return  Viewholder(view)
     }
@@ -49,7 +53,7 @@ var view=LayoutInflater.from(parent.context).inflate(
     override fun getItemCount(): Int {
 
 
-return members_data_arraylist.size
+        return members_data_arraylist.size
     }
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
@@ -58,13 +62,13 @@ return members_data_arraylist.size
         var holder_=holder.itemView
         val MyPreferences = "mypref"
         val sharedPreferences =context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-        var mobile_no= "254"+sharedPreferences?.getString("phone_number", "");
+        var mobile_no= sharedPreferences?.getString("phone_number", "");
         designation= sharedPreferences?.getString("designation", "MEMBER").toString()
         var account_status=data.status
 
 
         if ((position % 2) == 0) {
-            holder_.outside_layer.setBackgroundColor(Color.parseColor("#A6FFA6"))
+            holder_.outside_layer.setBackgroundColor(Color.parseColor("#e7e6dd"))
         }
 
         if (designation.equals("ADMIN"))
@@ -104,28 +108,32 @@ return members_data_arraylist.size
                 holder_.member_names.text=data.username
                 holder_.mobile_no.text="+254"+data.phone_number
             }
-            holder_.visibility=View.GONE
+            holder_.more_options.visibility=View.GONE
+            holder_.activate_account.visibility=View.GONE
+
         }
-       // val i: Int = mobile_no.toInt()
-       // val s: Int = data.phone_number.toInt()
+        // val i: Int = mobile_no.toInt()
+        // val s: Int = data.phone_number.toInt()
 
 
-        var unique_id_for_intent=get_peer_to_peer_chat_unique_id(mobile_no, data.phone_number)
+        var unique_id_for_intent=get_peer_to_peer_chat_unique_id(mobile_no!!, data.phone_number)
 
 
         holder_.text_member.setOnClickListener {
-           var intent_to_person_to_person=Intent(context, Peer_to_peer_chat::class.java)
+            var intent_to_person_to_person=Intent(context, Peer_to_peer_chat::class.java)
             intent_to_person_to_person.putExtra("receiver_phone_no", data.phone_number)
             intent_to_person_to_person.putExtra("receiver_username", data.username)
             intent_to_person_to_person.putExtra("unique_id", unique_id_for_intent)
 
-
+Log.d("unique_id",unique_id_for_intent)
             context.startActivity(intent_to_person_to_person)
         }
 
 
 
     }
+
+
 
     private fun set_active_alert(
         username: String,
@@ -193,7 +201,19 @@ return members_data_arraylist.size
 
                         view.members_progressBar.visibility=View.GONE
                         view.members_list_recycler_view.isClickable=true
-                        members_data_arraylist.removeAt(position)
+
+                        if (!state.equals("inactive"))
+                        {
+                            view.members_list_recycler_view.activate_account.visibility=View.GONE
+                            view.members_list_recycler_view.more_options.visibility=View.VISIBLE
+
+                        }
+                        else{
+                            view.members_list_recycler_view.activate_account.visibility=View.VISIBLE
+                            view.members_list_recycler_view.more_options.visibility=View.GONE
+
+                        }
+                        //  members_data_arraylist.removeAt(position)
 
                     } else {
                         view.members_progressBar.visibility=View.GONE
@@ -222,7 +242,7 @@ return members_data_arraylist.size
 
                 val err = Volley_ErrorListener_Handler()
 
-                 err.check_error(it,view)
+                err.check_error(it,view)
             })
         {
             /*
@@ -248,20 +268,20 @@ return members_data_arraylist.size
         holder_: View
     ) {
 
-                // Use the Builder class for convenient dialog construction
-                val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-                builder.setMessage("Are you sure Set account for "+name +" to inactive? ")
-                    .setPositiveButton("YES",
-                        DialogInterface.OnClickListener {
-                                dialog, id ->
-                            handle_more_options(phone, members_data_arraylist, position,"inactive",holder_)
-                        })
-                    .setNegativeButton("cancel",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            // User cancelled the dialog
-                        })
-                // Create the AlertDialog object and return it
-                 builder.create()
+        // Use the Builder class for convenient dialog construction
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setMessage("Are you sure Set account for "+name +" to inactive? ")
+            .setPositiveButton("YES",
+                DialogInterface.OnClickListener {
+                        dialog, id ->
+                    handle_more_options(phone, members_data_arraylist, position,"inactive",holder_)
+                })
+            .setNegativeButton("cancel",
+                DialogInterface.OnClickListener { dialog, id ->
+                    // User cancelled the dialog
+                })
+        // Create the AlertDialog object and return it
+        builder.create()
         builder.show()
 
 

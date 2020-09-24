@@ -139,7 +139,7 @@ class DashBoard : AppCompatActivity() {
 
         //  bundle.putSerializable("user_data", crime_arraylist_tosend_to_full_details_acitivity as Serializable)
         intent.putExtra("crime_incidences_data_to_json_string_to_send",marker_tag)
-        rootView_dashboard!!.context.startActivity(intent)
+        startActivity(intent)
         Log.d("marker_tag_value",change_to_crime_incidences_data_class(marker_tag!!).toString())
     }
     fun get_polygon_list_volley() {
@@ -347,9 +347,11 @@ class DashBoard : AppCompatActivity() {
                       crime_data_array_jsonobjects.getString("crime_time_and_date_value"),
                       crime_data_array_jsonobjects.getString("incident_type"),
                       crime_data_array_jsonobjects.getString("crime_description"),
-                      crime_data_array_jsonobjects.getString("location_description")
+                      crime_data_array_jsonobjects.getString("location_description"),
+                      crime_data_array_jsonobjects.getString("mobile_no")
 
-                  )
+
+                      )
 
                   crime_data_arraylist.add(data)
                   //function call to set incident markers .is passing location,crime description and time value

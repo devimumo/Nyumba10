@@ -19,6 +19,7 @@ import com.example.nyumba10.Helper_classes.Volley_ErrorListener_Handler
 import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
 import kotlinx.android.synthetic.main.activity_crime_data_fuul_details.*
+import kotlinx.android.synthetic.main.fragment_incidences_crimes.*
 import kotlinx.android.synthetic.main.fragment_incidences_crimes.view.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -69,6 +70,9 @@ retreive_crime_data(my_association_view)
 
     private fun retreive_crime_data(view: View)
     {
+
+
+my_association_view.crime_incidences_progress_bar.visibility=View.VISIBLE
         val MyPreferences = "mypref"
         var sharedPreferences =  (view.context).getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
         var crime_data= sharedPreferences.getString("crime_data","");
@@ -111,7 +115,8 @@ retreive_crime_data(my_association_view)
                 data_at_position.getString("crime_time_and_date_value"),
                 data_at_position.getString("incident_type"),
                 data_at_position.getString("crime_description"),
-                        data_at_position.getString("location_description")
+                        data_at_position.getString("location_description"),
+                data_at_position.getString("mobile_no")
 
             )
 
@@ -132,6 +137,11 @@ retreive_crime_data(my_association_view)
             crimes_incidences_for_myassociation(it, crime_data_arraylist
             )
         }
+
+
+        my_association_view.crime_incidences_progress_bar.visibility=View.GONE
+
+
         recycler_view?.layoutManager = LinearLayoutManager(context)
         adap?.notifyDataSetChanged()
         recycler_view?.adapter = adap
@@ -159,17 +169,25 @@ retreive_crime_data(my_association_view)
 
                 }
                 else{
+                    my_association_view.crime_incidences_progress_bar.visibility=View.GONE
+
+
 
                 }
 
             }
             catch (e: JSONException)
             {
+                my_association_view.crime_incidences_progress_bar.visibility=View.GONE
+
                 Log.d("JSONException",e.toString())
 
             }
             catch (e : ParseException)
             {
+                my_association_view.crime_incidences_progress_bar.visibility=View.GONE
+
+
                 Log.d("ParseException",e.toString())
 
             }
@@ -177,10 +195,11 @@ retreive_crime_data(my_association_view)
 
         }, Response.ErrorListener {
 
+            my_association_view.crime_incidences_progress_bar.visibility=View.GONE
 
             val err= Volley_ErrorListener_Handler()
 
-            //  err.check_error(it,view)
+              err.check_error(it,view)
 
 
         })

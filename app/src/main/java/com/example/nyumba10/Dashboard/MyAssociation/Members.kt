@@ -129,6 +129,7 @@ class Members : Fragment() {
     private fun iterate_members_data(members_data_jsonarray: JSONArray)
     {
 
+
         var members_list_recycler_view = members_view.members_list_recycler_view
 
         members_list_recycler_view?.layoutManager = LinearLayoutManager(members_view.context)
@@ -141,6 +142,7 @@ class Members : Fragment() {
 
         }else
         {
+            Log.d("iterate_check",members_data_jsonarray.toString())
 
             for (i in 0..length-1)
             {
@@ -188,12 +190,18 @@ class Members : Fragment() {
         val sharedPreferences =
             context?.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
         var mobile_no= sharedPreferences?.getString("phone_number","");
+
         if (!(mobile_no).equals(phonenumber))
         {
             return_value=true
 
         }
+
+
+
         return  return_value
+        Log.d("mobile_no_check",mobile_no.toString())
+
     }
 
 }
