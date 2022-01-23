@@ -18,8 +18,10 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Helper_classes.Volley_ErrorListener_Handler
-import com.example.nyumba10.R
 import com.example.nyumba10.Security.Encrypt
+import com.google.firebase.messaging.FirebaseMessagingService;
+
+
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.coroutines.delay
@@ -27,6 +29,16 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import android.R
+import androidx.core.content.edit
+import com.android.volley.DefaultRetryPolicy
+
+import com.google.android.gms.tasks.OnCompleteListener
+
+import com.google.firebase.messaging.FirebaseMessaging
+
+
+
 
 
 private var attempts = 3
@@ -36,10 +48,15 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
+        setContentView(com.example.nyumba10.R.layout.login)
 
         val action=supportActionBar
         action?.title="Login"
+
+
+
+
+        get_firebase_instance_id()
 
         val MyPreferences = "mypref"
         var sharedPreferences =  getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
@@ -264,7 +281,7 @@ var userdata_json_object=JSONObject(userData)
                 val profile_status = sharedPreferences.getString("profile_status", "!updated")
 
                 if (profile_status.equals("updated"))
-                { val intent = Intent(this, DashBoard::class.java)
+                { val intent = Intent(this, Navigation_Dashboard::class.java)
                     startActivity(intent)
                 }
                 else
@@ -347,6 +364,115 @@ var userdata_json_object=JSONObject(userData)
             builder.create()
             builder.show()
         }
+    }
+
+    private fun get_firebase_instance_id()
+    {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+               // Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            Log.d("instance1",token)
+
+            val MyPreferences = "mypref"
+            val sharedPreferences =getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+            val editor = sharedPreferences.apply {
+
+                this.edit {
+
+                    this.remove("instance_id_value")
+
+                    this.putString("instance_id_value",token.toString())
+
+                }
+            }
+
+
+            // String phone_number_= phone_number.getText().toString().trim();
+
+            // Log and toast
+          //  val msg = getString(com.example.nyumba10.R.string.msg_token_fmt, token)
+            Log.d("firebase_instance_id",token.toString())
+         //   Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
+
+
+
+
+    }
+
+    /**
+     * Called if the FCM registration token is updated. This may occur if the security of
+     * the previous token had been compromised. Note that this is called when the
+     * FCM registration token is initially generated so this is where you would retrieve the token.
+     */
+     fun onNewToken(token_value: String) {
+        //  Log.d(TAG, "Refreshed token: $token")
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // FCM registration token to your app server.
+
+        val MyPreferences="mypref"
+        val sharedPreferences =getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        var id_no=sharedPreferences.getString("id_no","")
+        send_to_db_instanse_id(token_value,id_no.toString(),this)
+    }
+
+    private fun send_to_db_instanse_id(id_no: String,instanseId: String,context: Context
+    ) {
+        val encrypt = Encrypt()
+//+"?firstname="+FirstName+"&lastname="+LastName+"&email="+Email+"&id_no="+id_no+"&mobile_no="+Mobile_no+"&password="+Password
+        val url ="https://daudi.azurewebsites.net/nyumbakumi/login/update_firebase_instance_id.php"
+        val stringRequest: StringRequest = object : StringRequest(Method.POST,url, Response.Listener { response ->
+            Log.i("Responsed", response)
+            var jsonObject: JSONObject? = null
+            try {
+                jsonObject = JSONObject(response)
+                val responses = jsonObject.getString("response")
+                when (responses) {
+                    "successful" -> {
+
+                    }
+                    else -> {
+
+                    }
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { error ->
+            Log.i("Volley_Error", error.toString())
+            //  progressbar!!.visibility = View.INVISIBLE
+        }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                val encrypt = Encrypt()
+                //    val times = Time_function()
+                //  params["time_"] = times.current_time()
+                //  params["date_"] = times.current_date()
+
+                params["id_no"] = id_no
+                params["firebase_instance_id"] = instanseId
+                Log.d("firebase_instance_id",instanseId)
+
+
+                return params
+            }
+        }
+        val requestQueue = Volley.newRequestQueue(context)
+
+
+
+        requestQueue.add(stringRequest)
+        stringRequest.setRetryPolicy(DefaultRetryPolicy(80000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
     }
 
 

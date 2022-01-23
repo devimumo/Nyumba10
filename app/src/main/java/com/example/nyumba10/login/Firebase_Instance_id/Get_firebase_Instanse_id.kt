@@ -14,10 +14,15 @@ import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Security.Encrypt
 import com.example.nyumba10.login.Login
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
+
+import com.google.firebase.iid.FirebaseInstanceIdReceiver
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
+import io.grpc.InternalChannelz.id
 import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.Calendar.getInstance
 import java.util.HashMap
 
 var instanse_id=""
@@ -26,35 +31,27 @@ class Get_firebase_Instanse_id {
     fun get_instanse_id(id_no: String,context: Context) {
 
      //   val conte = context
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     Log.w("refused", "getInstanceId failed", task.exception)
 
                     instanse_id="unsuccessful"
                 }
+            else
+                {
+                    val token = task.getResult();
 
-                // Get new Instance ID token
-                val token = task.result?.token
 
-                // Log and toast
-                // val msg = getString(R.string.msg_token_fmt, token)
-                Log.d("agreed", token!!)
-                if (token != null) {
-
-                    // val vii=View(context)
-                  //  var send_to_server = Update_firebase_instance_id()
-
-                  //  send_to_server.update_instance_id(context, token, phone_number, username)
+                    Log.d("agreed", token!!)
 
                     instanse_id=token
                     Log.d("tokeeens",token)
                     send_to_db_instanse_id(id_no,token,context)
-
                 }
 
-                //  Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-            })
+
+        })
 
     }
 

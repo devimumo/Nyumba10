@@ -1,20 +1,25 @@
 package com.example.nyumba10.DashboardMapUpdate
 
+import android.view.View
 import androidx.annotation.MainThread
+import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Dashboard.Admin.Crime_incidences.crime_incidences_data_class
 import com.example.nyumba10.login.DashBoard
+import com.example.nyumba10.login.Navigation_Dashboard
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
-private val Dashboard_instanse=DashBoard()
+private val Dashboard_instanse=Navigation_Dashboard()
 
 class get_marker_to_update_details_from_onmessagereceived {
-
+  // private var mRequestQueue = Volley.newRequestQueue() //assigning the requestqueue
 
 suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
 {
+
+
     var message_JSONobject=JSONObject(message)
     var mobile_no_value=message_JSONobject.getString("mobile_no")
 
@@ -37,7 +42,6 @@ suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
         mobile_no_value
     )
 
-
     var  listLatLng_todb_array= JSONArray(listLatLng_todb)
 
     var lat=getlatlong(listLatLng_todb_array,"lat")
@@ -48,9 +52,7 @@ suspend fun get_marker_to_update_details_from_onmessagereceived(message: String)
         Dashboard_instanse.set_marker(crime_time_and_date_value, marker_location, crime_description,incident_type,marker_tag,data)
     }
 
-
 }
-
     private fun getlatlong(listlang: JSONArray,name: String): String
     {
 

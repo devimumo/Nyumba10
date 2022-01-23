@@ -12,19 +12,25 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.nyumba10.Dashboard.GroupChat.adapter.association_group_chat_adapter
 import com.example.nyumba10.Dashboard.Peer_to_peer_chat.adapter.peer_to_peer_chat_recycler_adapter
-import com.example.nyumba10.Dashboard.Peer_to_peer_chat.retreive_chats_from_room_database_for_peer_to_peer_chats
 import com.example.nyumba10.Helper_classes.Volley_ErrorListener_Handler
 import com.example.nyumba10.R
 import com.example.nyumba10.Worker.set_message_payload_to_peer_to_peer_entity
 import com.example.nyumba10.dataclasses.association_chat_messages_dataclass
+import com.example.nyumba10.roompackages.db_instanse.association_chat_db_instances
+import com.example.nyumba10.roompackages.entities.Association_chat_entity
+import com.example.nyumba10.roompackages.entities.Person_to_person_chat_entity
+import com.example.nyumba10_person_to_person.roompackages.db_instanse.person_to_person_chat_db_instanse
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_peer_to_peer_chat.*
-import kotlinx.android.synthetic.main.activity_peer_to_peer_chat.view.*
-import kotlinx.android.synthetic.main.group_chat.*
+import kotlinx.android.synthetic.main.fragment_members.*
 import kotlinx.android.synthetic.main.group_chat.chat_message
-import kotlinx.android.synthetic.main.group_chat.view.*
-import kotlinx.android.synthetic.main.group_chat.view.chats_list_recycler_view
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -44,6 +50,13 @@ private var get_message_instanse= retreive_chats_from_room_database_for_peer_to_
 private var time_return_value: String=""
 private  lateinit var recycler_view: RecyclerView
 private lateinit var unique_id_value_from_members: String
+private  var  id_no: String=""
+private  var  firstname: String=""
+private  var  time_value: String=""
+private  var  association_id: String=""
+private  var  sender_mobile_no: String=""
+private  var  token_value: String=""
+
 
 class Peer_to_peer_chat : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +73,19 @@ receiver_phone_no= intent.getStringExtra("receiver_phone_no").toString()
         actionBar!!.title = receiver_username
         rootView = window.decorView.rootView
 
+
+        val MyPreferences = "mypref"
+        val sharedPreferences =getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        // String session_id= sharedPreferences.getString("sessions_ids","");
+
+         id_no = sharedPreferences.getString("id_no", "").toString()
+         firstname = sharedPreferences.getString("firstname", "").toString()
+         sender_mobile_no=sharedPreferences.getString("phone_number","").toString()
+         association_id=sharedPreferences.getString("association_id","").toString()
+         time_value= SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
+
+
+
         Log.d("receiver_phone_no", receiver_phone_no)
 
         get_message_instanse.retreive_chats_from_room_database(rootView!!.context,unique_id_value_from_members)
@@ -68,7 +94,7 @@ receiver_phone_no= intent.getStringExtra("receiver_phone_no").toString()
 
     suspend fun set_to_recycler(context: Context, messagesJson: String) {
 
-         recycler_view = rootView?.chats_list_recycler_view!!
+         recycler_view = peer_to_peer_chats_list_recycler_view!!
         recycler_view?.layoutManager = LinearLayoutManager(context)
         (recycler_view?.layoutManager as LinearLayoutManager).setStackFromEnd(true)
 
@@ -93,7 +119,8 @@ receiver_phone_no= intent.getStringExtra("receiver_phone_no").toString()
                 )
 
 
-                var adap = peer_to_peer_chat_recycler_adapter(chats_payload_arraylist, context)
+                var adap = peer_to_peer_chat_recycler_adapter(chats_payload_arraylist, context,
+                    rootView!!)
 
                 chats_payload_arraylist.add(chats_data)
                 recycler_view?.layoutManager = LinearLayoutManager(context)
@@ -107,7 +134,7 @@ receiver_phone_no= intent.getStringExtra("receiver_phone_no").toString()
         else
         {
 
-text_no_data.visibility=View.VISIBLE
+//text_no_data.visibility=View.VISIBLE
           //
         }
 
@@ -153,23 +180,42 @@ text_no_data.visibility=View.VISIBLE
 
             R.id.send->{
 
-                send_message_(view,chat_message.text.toString())
+                var message_from_edit_text=chat_message.text.toString()
+                var chats_data = association_chat_messages_dataclass(
+                    message_from_edit_text,
+                    time_value(time_value),
+                    firstname ,
+                    id_no)
+
+                rootView?.let { set_to_recycler_from_local_phone(it.context,chats_data) }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (insert_to_db()>=1)
+                    {
+
+                        withContext(Dispatchers.Main) {
+                            chat_message.setText("")
+
+                        }
+                    }
+
+                }
+
+
+                send_message_(view,message_from_edit_text, association_id)
             }
         }
     }
 
 
-    private fun send_message_(view: View,message: String)
+    private fun send_message_(view: View, message: String, association_id: String)
     {
+
         val MyPreferences = "mypref"
         val sharedPreferences =getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
-        // String session_id= sharedPreferences.getString("sessions_ids","");
 
-        val id_no = sharedPreferences.getString("id_no", "")
-        val firstname = sharedPreferences.getString("firstname", "")
-       val sender_mobile_no=sharedPreferences.getString("phone_number","")
-        var time_value= SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
-        val association_id=sharedPreferences.getString("association_id","")
+        var instance_id_value=sharedPreferences.getString("instance_id_value","")
+
 
         Log.d("receiver_phone_no", sender_mobile_no!!)
 
@@ -192,8 +238,11 @@ unique_id= receiver_phone_no.toString()+sender_mobile_no.toString()
             remote_json.put("phone_number",sender_mobile_no)
             remote_json.put("receiver_phone_no", receiver_phone_no)
             remote_json.put("unique_id", unique_id)
+            remote_json.put("instance_id", instance_id_value)
 
-            remote_json.put("association_id",association_id)
+            remote_json.put("association_id",
+                com.example.nyumba10.Dashboard.Peer_to_peer_chat.association_id
+            )
 
 
         } catch (e: JSONException) {
@@ -203,7 +252,7 @@ unique_id= receiver_phone_no.toString()+sender_mobile_no.toString()
         val url ="https://daudi.azurewebsites.net/nyumbakumi/fcm/fcm.php"
         rootView?.context?.let {
             set_message_payload_instanse_for_peer_to_peer_chats.set_message_payload_to_entity(
-                it,remote_json.toString())
+                it,remote_json.toString(),""!!,""!!)
         }
 
 
@@ -256,5 +305,70 @@ Log.d("response",response)
 
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
+    }
+
+    private fun insert_to_db(): Long
+    {
+
+
+        var message_from_edit_text=chat_message.text.toString()
+        var peer_to_peer = Person_to_person_chat_entity()
+        peer_to_peer.message = message_from_edit_text
+        peer_to_peer.time_created = time_value
+        peer_to_peer.username = firstname
+        peer_to_peer.from_id_no = id_no
+        peer_to_peer.chats_unique_id = sender_mobile_no+ receiver_phone_no
+
+
+        var insert_message_payload_dbinstanse = person_to_person_chat_db_instanse()
+        var insert_value=
+            insert_message_payload_dbinstanse.insert_message_payload(rootView!!.context, peer_to_peer)
+
+
+       // var insert_message_payload_dbinstanse = association_chat_db_instances()
+
+
+
+        return  insert_value
+    }
+
+
+    private fun get_firebase_instance_id(): String
+    {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                // Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+             token_value=token.toString()
+
+            // Log and toast
+            //  val msg = getString(com.example.nyumba10.R.string.msg_token_fmt, token)
+            Log.d("firebase_instance_ids",token.toString())
+            //   Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
+
+
+return token_value
+
+    }
+
+     fun set_to_recycler_from_local_phone(context: Context,chats_data:association_chat_messages_dataclass )
+    {
+
+        var recycler_views= peer_to_peer_chats_list_recycler_view
+        var adap = rootView?.let {
+            peer_to_peer_chat_recycler_adapter(chats_payload_arraylist, context,
+                rootView!!)
+        }
+
+        chats_payload_arraylist.add(chats_data)
+        recycler_views?.layoutManager = LinearLayoutManager(context)
+        adap?.notifyDataSetChanged()
+        recycler_views?.adapter = adap
+        (recycler_views?.layoutManager as LinearLayoutManager).setStackFromEnd(true)
     }
 }

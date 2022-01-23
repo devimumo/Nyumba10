@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "association_chat_table")
-data class association_chat_entity (
+data class Association_chat_entity (
 
     @PrimaryKey(autoGenerate = true)
     var chats_id:Int=0 ,

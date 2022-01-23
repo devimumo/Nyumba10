@@ -13,7 +13,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nyumba10.Security.Encrypt
 import com.example.nyumba10.login.Login
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONException

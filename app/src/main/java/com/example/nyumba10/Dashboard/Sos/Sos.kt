@@ -81,6 +81,7 @@ instanse_id.setOnClickListener {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             6-> {
                 // If request is cancelled, the result arrays are empty.

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "person_to_person_chat_table")
-data class person_to_person_chat_entity (
+data class Person_to_person_chat_entity (
 
     @PrimaryKey(autoGenerate = true)
     var chats_id:Int=0 ,

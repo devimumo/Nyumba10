@@ -35,6 +35,11 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        already_have_account_prob.setOnClickListener {
+
+            val login_activity_intent=Intent(this,Login::class.java)
+            startActivity(login_activity_intent)
+        }
         signUp.setOnClickListener(View.OnClickListener {
             signup()
 

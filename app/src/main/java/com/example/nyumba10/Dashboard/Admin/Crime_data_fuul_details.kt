@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_crime_data_fuul_details.*
+import kotlinx.android.synthetic.main.members_data_recyclerview_layout.*
 import org.json.JSONArray
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,7 +61,7 @@ class Crime_data_fuul_details : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
 
-        call_member.setOnClickListener {
+        imageView4.setOnClickListener {
 calling_permission()
         }
     }
@@ -268,6 +269,7 @@ private fun set_data_to_view(crime_data: crime_incidences_data_class)
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             6-> {
                 // If request is cancelled, the result arrays are empty.

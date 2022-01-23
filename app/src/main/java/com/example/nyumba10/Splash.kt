@@ -1,7 +1,11 @@
 package com.example.nyumba10
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,11 +19,11 @@ import com.example.nyumba10.login.RegisterActivity
 class Splash : AppCompatActivity() {
 
     lateinit var handler: Handler
-private var confirm_account_using_otp: String="!confirmed"
+    private var confirm_account_using_otp: String="!confirmed"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
-
+        createChannel("Chat_notifications","Chat notifications")
 
         val actionBar = supportActionBar
         actionBar!!.hide()
@@ -75,9 +79,6 @@ var profile_status=sharedPreferences.getString("profile_status", "!updated")
 
                 }
 
-
-
-
             }
            else
             {
@@ -87,5 +88,29 @@ var profile_status=sharedPreferences.getString("profile_status", "!updated")
             finish()
         } , 2500) // here we're delaying to startActivity after 3seconds
 
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        // TODO: Step 1.6 START create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                // TODO: Step 2.4 change importance
+
+                NotificationManager.IMPORTANCE_LOW
+            )
+            // TODO: Step 2.6 disable badges for this channel
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "Time for breakfast"
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        // TODO: Step 1.6 END create channel
     }
 }

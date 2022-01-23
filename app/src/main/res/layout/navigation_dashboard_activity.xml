@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.Navigation_Dashboard">
+
+    <fragment
+        android:id="@+id/dashboard_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.4"
+        android:minHeight="100dp"
+        android:maxHeight="500dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ffffff"
+        android:fillViewport="true"
+        android:visibility="visible"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_map"
+        app:layout_constraintVertical_bias="0.0">
+
+        <GridLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+
+            android:background="#ffffff"
+            android:columnCount="2"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:useDefaultMargins="true">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/statistics"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/stats" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Statistics"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/sos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/sos_new" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" SOS"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/report_crime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/report_crime" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" Report Crime"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="20dp"
+
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/chat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" Chat"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/my_association"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/association" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" My association"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/my_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/my_account"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" My account"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/admin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/admin2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="  Admin"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/security"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:elevation="12dp"
+                android:onClick="Card_click"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="3"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/police" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=" Police"
+                        android:textColor="#000000"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </GridLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/association_choice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:minHeight="52dp"
+        app:layout_constraintWidth_percent="0.58"
+        android:maxWidth="200dp"
+        android:background="@drawable/dashboard_association_choice_background"
+        app:layout_constraintBottom_toBottomOf="@+id/dashboard_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_map">
+
+
+        <TextView
+            android:id="@+id/association_choice_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:layout_weight="2"
+            android:textColor="@color/black"
+            android:text="Navigate Using these buttons" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

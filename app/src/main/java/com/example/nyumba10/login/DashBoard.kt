@@ -612,7 +612,7 @@ var marker_tag_with_data_payload=change_object_to_json_string(data)
         builder.create()
         builder.show()
     }
-    fun Card_click(view: View) {
+    private fun  Cards_click(view: View) {
 
 
         when (view.id)
@@ -646,8 +646,10 @@ var marker_tag_with_data_payload=change_object_to_json_string(data)
 
             R.id.chat->{
 
+                Log.d("Chatsss","clicked on chat")
+
                 val intent= Intent(this,GroupChat::class.java)
-                startActivity(intent)
+              //  startActivity(intent)
             }
 
             R.id.statistics->{
@@ -681,6 +683,7 @@ var marker_tag_with_data_payload=change_object_to_json_string(data)
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             2 -> {
                 // If request is cancelled, the result arrays are empty.
@@ -728,6 +731,71 @@ var marker_tag_with_data_payload=change_object_to_json_string(data)
          var data_fro_marker=Gson().fromJson<crime_incidences_data_class>(data,crime_incidences_data_class::class.java)
        //  Log.d("data_fro_marker",data_fro_marker.toString())
 return  data_fro_marker.toString()
+    }
+
+    fun Card_click(view: android.view.View) {
+        when (view.id)
+        {
+            R.id.my_association->{
+
+
+                val intent= Intent(this,MyAssociation::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable("user_data", crime_data_arraylist as Serializable)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+            R.id.sos->{
+                val intent= Intent(this,Sos::class.java)
+                startActivity(intent)
+            }
+
+            R.id.my_account->{
+
+                val intent= Intent(this,MyAccount::class.java)
+                startActivity(intent)
+            }
+
+            R.id.report_crime->{
+
+                val intent= Intent(this,ReportCrime::class.java)
+                startActivity(intent)
+            }
+
+            R.id.chat->{
+
+                Log.d("Chatsss","clicked on chat")
+
+                val intent= Intent(this,GroupChat::class.java)
+                  startActivity(intent)
+            }
+
+            R.id.statistics->{
+
+                /*  CoroutineScope(Dispatchers.IO).launch {
+                      var instanse=association_chat_db_instances()
+                      instanse.delete_sata_on_table(applicationContext)
+                  }*/
+
+                val intent= Intent(this,Statistics::class.java)
+                startActivity(intent)
+            }
+
+            R.id.admin->{
+
+                val intent= Intent(this,Admin::class.java)
+                startActivity(intent)
+            }
+
+            R.id.security->{
+
+                val intent= Intent(this,Security::class.java)
+                startActivity(intent)
+            }
+
+        }
+
     }
 
 }

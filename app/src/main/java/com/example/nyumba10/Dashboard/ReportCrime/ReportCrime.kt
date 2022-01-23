@@ -90,7 +90,7 @@ class ReportCrime : AppCompatActivity() {
         map_permissions(access_fine_location_name, access_fine_location_code, location_permission)
         set_default_time_values()
         get_last_location()
-
+        get_my_association_polygon_list("clicked")
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.dashboard_map) as SupportMapFragment
          mapFragment.getMapAsync {
@@ -101,7 +101,6 @@ class ReportCrime : AppCompatActivity() {
         listMarkers.clear()
         listLatLng_todb?.clear()
 
-        get_my_association_polygon_list("clicked")
 
         Toast.makeText(this,"iko hapa",Toast.LENGTH_LONG).show()
         val markerOptions = MarkerOptions().title("title").snippet("Crime 3h").position(it)
@@ -162,7 +161,7 @@ class ReportCrime : AppCompatActivity() {
         Log.d("primary_residense",primary_residense_polygon_list!!)
 
 
-        polygon(primary_residense_polygon_list!!,state)
+        polygon(primary_residense_polygon_list,state)
 
     }
 
@@ -320,7 +319,7 @@ Log.d("my_location",my_location.toString())
 
     }
 
-  private  fun date_picker()
+                private  fun date_picker()
     {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -328,9 +327,6 @@ Log.d("my_location",my_location.toString())
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val time=c.get(Calendar.HOUR_OF_DAY)
-
-
-
 
 
         val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -423,8 +419,6 @@ if (dayOfMonth<10)
                 }
                 else
                 {
-
-
                     incident_time.text=SimpleDateFormat("HH:mm:a").format(c.time)
 
                     var secs=10
@@ -435,9 +429,6 @@ if (dayOfMonth<10)
 
                 }
             }
-
-
-
 
         }
 
@@ -492,6 +483,7 @@ TimePickerDialog(this,time_pick,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUT
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onRequestPermissionsResult(requestCode: Int,
                                    permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             1-> {
 
@@ -675,6 +667,8 @@ if (response.equals("successful"))
 
                 val id_no = sharedPreferences.getString("id_no", "")
                 val association_id = sharedPreferences.getString("association_id", "")
+
+                Log.d("asscoi",association_id)
                 val phone_number = sharedPreferences.getString("phone_number", "")
 
                if (anonimously.isChecked)
@@ -750,7 +744,7 @@ if (response.equals("successful"))
        var jsonObject= json_array.getJSONObject(0)
         var lat=jsonObject.getString("lat").toDouble()
         var long=jsonObject.getString("long").toDouble()
-var location=LatLng(lat,long)
+        var location=LatLng(lat,long)
 
 
         val markerOptions = MarkerOptions().snippet(crime_description.text.toString()).title("crime").position(location)

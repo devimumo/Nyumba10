@@ -1,6 +1,7 @@
 package com.example.nyumba10.Dashboard.MyAssociation.Association_search
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.SearchManager
 import android.content.Context
@@ -37,6 +38,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polygon
 import com.google.android.gms.maps.model.PolygonOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_register.progress
 import kotlinx.android.synthetic.main.association_add.*
@@ -46,6 +49,7 @@ import org.json.JSONObject
 import java.text.ParseException
 import java.util.HashMap
 
+@SuppressLint("StaticFieldLeak")
 private lateinit var fusedLocationClient: FusedLocationProviderClient
 private var listLatLngs_arraylist: ArrayList<LatLng> = ArrayList()
 
@@ -191,6 +195,7 @@ class Association_add : AppCompatActivity() {
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             2 -> {
                 // If request is cancelled, the result arrays are empty.
@@ -769,19 +774,47 @@ Log.d("associat_add_res",it.toString())
     requestQueue.add(stringRequest)
 }
 
-    private fun send_firebasetopic_subscription(associationIdValue: String) {
+    /* private void Updatetoken(Task<String> token)
+    {
+        mesodb=FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1= new Token(token);
+        mesodb.child(fuser.getUid()).setValue(token1);
+        Log.d("Tok", String.valueOf(token1));
 
-        FirebaseMessaging.getInstance().subscribeToTopic(associationIdValue)
-            .addOnCompleteListener { task ->
+    }*/
+    private fun send_firebasetopic_subscription (associationIdValue: String) {
+        var topic_to_subscribe =
+            "com.example.nyumba10" + associationIdValue.replace("\\s".toRegex(), "")
+        FirebaseMessaging.getInstance().subscribeToTopic(topic_to_subscribe)
+            .addOnCompleteListener { task -> // String msg = getString(R.string.msg_subscribed);
                 if (!task.isSuccessful) {
+                    Toast.makeText(this, "Kindly choose association again", Toast.LENGTH_SHORT).show()
 
                 }
-                Toast.makeText(this,"Records saved successfully", Toast.LENGTH_LONG).show()
+                else
+                {
+                    Toast.makeText(this, "Association successfully added to discussion topics", Toast.LENGTH_SHORT).show()
 
+                }
+                //Log.d(TAG, msg);
             }
+    }
 
 
+     fun subscribetotopic(associationIdValue: String) {
 
+     /*  var topic_to_subscribe =
+            "com.example.nyumba10" + associationIdValue.replace("\\s".toRegex(), "")
+
+        Firebase.messaging.subscribeToTopic(topic_to_subscribe.toString())
+            .addOnCompleteListener { task ->
+           //     var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+               //     msg = getString(R.string.msg_subscribe_failed)
+                }
+                //Log.d(TAG, msg)
+              //  Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            }*/
 
     }
 

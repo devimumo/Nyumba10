@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.layout.view.*
 import kotlinx.android.synthetic.main.layout_2.view.*
 import java.util.ArrayList
 
-class peer_to_peer_chat_recycler_adapter  (var chats: ArrayList<association_chat_messages_dataclass>, val c: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class peer_to_peer_chat_recycler_adapter  (var chats: ArrayList<association_chat_messages_dataclass>, val c: Context,var view:View): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType==1)
         {
@@ -29,7 +29,8 @@ class peer_to_peer_chat_recycler_adapter  (var chats: ArrayList<association_chat
 
             return peer_to_peer_chat_recycler_adapter.Guest_viewholder(view)
 
-        }    }
+        }
+    }
 
     override fun getItemCount(): Int {
 return chats.size   }
@@ -63,7 +64,8 @@ return chats.size   }
     override fun getItemViewType(position: Int): Int {
         val user_data: association_chat_messages_dataclass=chats[position]
         val MyPreferences = "mypref"
-        val sharedPreferences =c.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
+        val sharedPreferences =view.context.
+        getSharedPreferences(MyPreferences, Context.MODE_PRIVATE)
         // String session_id= sharedPreferences.getString("sessions_ids","");
 
         val id_no = sharedPreferences.getString("id_no", "")

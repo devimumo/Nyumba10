@@ -22,6 +22,9 @@ class Handle_mesu: FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val mes = remoteMessage.data["message"];
+        val title=remoteMessage.data["title"];
+        val subtitle=remoteMessage.data["subtitle"];
+
         Log.d("extra_information",mes!!)
         val context=applicationContext
 
@@ -33,7 +36,7 @@ var mes_jsonobject=JSONObject(mes)
         when(type){
 
             "group"->{
-                set_message_payload_instanse.set_message_payload_to_entity(context,mes)
+                set_message_payload_instanse.set_message_payload_to_entity(context,mes,title!!,subtitle!!)
             }
             "map_marker"->{
 
@@ -46,21 +49,13 @@ var mes_jsonobject=JSONObject(mes)
             }
             "peer_to_peer"->{
 
-                set_message_payload_instanse_for_peer_to_peer_chats.set_message_payload_to_entity(context,mes)
+                set_message_payload_instanse_for_peer_to_peer_chats.set_message_payload_to_entity(context,mes,title!!,subtitle!!)
 
             }
             else->{
 
-
-
             }
         }
 
-
-
-
     }
-
-
-
 }

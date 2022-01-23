@@ -484,7 +484,8 @@ android:visibility="gone"
                       android:background="@drawable/edittexts_radio"
                       android:gravity="center"
                       android:orientation="horizontal"
-                      android:tooltipText="Are you married">
+                      android:tooltipText="Are you married"
+                      tools:targetApi="o">
 
                       <RadioButton
                           android:id="@+id/yes"

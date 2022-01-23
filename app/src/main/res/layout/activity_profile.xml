@@ -117,7 +117,8 @@
                 android:gravity="center"
                 android:tooltipText="Are you married"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                tools:targetApi="o">
 
                 <RadioButton
                     android:id="@+id/yes"
